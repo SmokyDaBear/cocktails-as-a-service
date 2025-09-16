@@ -1,0 +1,126 @@
+@media (min-width: 1024px) {
+  .horizontal-dt {
+    flex-direction: row;
+  }
+  a:hover {
+    line-height: 1.2rem;
+    text-decoration: underline;
+  }
+  i:hover,
+  a:hover,
+  i:focus,
+  a:focus {
+    color: var(--color-highlight);
+    transform: scale(1.1);
+    text-shadow: var(--text-outline);
+    cursor: pointer;
+  }
+  i:hover + span {
+    visibility: visible;
+    opacity: 1;
+  }
+  #menu-btn {
+    display: none;
+  }
+  .dropdown-list {
+    top: 100%;
+    position: absolute;
+    transform: translate(-10%, -100%);
+  }
+  .dropdown-list.active {
+    transform: none;
+  }
+}
+@media (max-width: 1023px) {
+  :root {
+    --color-opacity: rgba(32, 32, 29, 0.863);
+  }
+  .menu-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 1.6rem;
+    transition: all 0.5s ease-in-out;
+  }
+  .active ~ .menu-btn.fa-x {
+    z-index: 101;
+    opacity: 1;
+    visibility: visible;
+    transform: rotate(180deg);
+  }
+  .active + .menu-btn#menu-btn {
+    visibility: hidden;
+    opacity: 0;
+    transform: rotate(-180deg);
+  }
+  #menu-btn {
+    display: block;
+  }
+  i + span {
+    visibility: visible;
+    opacity: 1;
+  }
+  #nav-bar {
+    flex-direction: column;
+  }
+  #nav-bar .nav-list {
+    position: fixed;
+    top: var(--navbar-height);
+    flex-direction: column;
+    gap: 32px;
+    width: 100%;
+    visibility: none;
+    opacity: 0;
+    z-index: -1;
+    transform: translateY(-100%);
+    transition: all 0.6s;
+  }
+  #nav-bar .nav-list.active {
+    background-color: var(--color-opacity);
+    visibility: visible;
+    opacity: 1;
+    z-index: 100;
+    transform: none;
+  }
+  .nav-list li {
+    width: 100%;
+    text-align: center;
+    border-top: var(--color-two);
+  }
+  .search-bar .search-bar-input {
+    visibility: visible;
+    opacity: 1;
+    width: 100%;
+    width: 250px;
+    max-width: 100% !important;
+  }
+  .relative-anchor.flex-center {
+    flex-direction: column;
+  }
+  .dropdown-list {
+    top: 100%;
+    position: absolute;
+    width: 100%;
+    background: none;
+    transform: translate(0, -100%);
+    border-radius: 0;
+    border: none;
+  }
+  .dropdown-list.active {
+    background-color: var(--color-opacity);
+  }
+}
+@media (max-width: 440px) {
+  .container {
+    padding: 6px;
+  }
+  .modal-bg .drink-modal {
+    padding: 48px 6px;
+  }
+  h1 {
+    font-size: 2rem;
+  }
+  .sub-heading {
+    font-size: 1rem;
+  }
+}

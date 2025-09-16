@@ -1,0 +1,214 @@
+.card {
+  display: flex;
+  background-color: var(--color-one);
+  color: var(--color-two);
+  box-shadow: var(--shadow-one);
+}
+#drinks-section .card {
+  box-shadow: var(--shadow-two);
+}
+.card,
+.card * {
+  transition: all 0.4s ease-in-out;
+  cursor: pointer;
+  position: relative;
+}
+.card-container .drink-card.card.hidden {
+  display: none;
+}
+.card-container {
+  padding: 24px;
+  display: flex;
+  width: 100%;
+  gap: 6px;
+}
+.card-container.grid {
+  padding: 2rem 0.3rem;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  gap: 16px;
+}
+.card-container.grid .card {
+  width: 100%;
+  max-width: 400px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 24px;
+  box-shadow: var(--shadow-two);
+  border: var(--border-one);
+  overflow: hidden;
+  box-shadow: var(--shadow-three);
+}
+.card-container.grid .card:hover .card-text,
+.card-container.grid .card .img-container:focus + .card-text {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+
+  overflow: visible;
+}
+.card-container.grid .card:hover .img-container {
+  opacity: 0.8;
+}
+.card .special-heading {
+  padding: 0.4rem 0.8rem;
+  background-color: var(--color-two);
+  color: var(--color-one);
+  border-radius: 30px;
+  box-shadow: var(--shadow-one);
+}
+.card h2.special-heading {
+  width: 100%;
+  border-radius: 0;
+  margin-top: 0.3rem;
+}
+.card-container .card-text {
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 0.6rem 0.8rem;
+  text-align: center;
+  background-color: var(--color-one);
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+}
+.card-container.grid .card .card-text {
+  height: fit-content;
+  visibility: hidden;
+  position: absolute;
+  bottom: 4px;
+  opacity: 0;
+  transform: translateY(100%);
+  overflow: hidden;
+  box-shadow: var(--shadow-one);
+  width: 80%;
+  border-radius: 8px;
+  border: 2px solid var(--color-four);
+  border-right: 1px solid var(--color-three);
+  border-bottom: 1px solid var(--color-three);
+}
+.card-container.table .card .card-text {
+  margin: auto;
+  line-height: 2rem;
+  width: 100%;
+}
+.card-text p {
+  line-height: 0.9rem;
+}
+.card-container.grid .card .img-container {
+  height: 100%;
+  top: 0;
+}
+.card .img-container {
+  overflow: hidden;
+  width: 100%;
+}
+.favorite-container {
+  position: relative;
+}
+.favorite-container:hover .faves-btn,
+.favorite-container:focus .faves-btn {
+  opacity: 1;
+}
+.favorite-container .faves-btn {
+  z-index: 2;
+  opacity: 0.5;
+  position: absolute;
+  font-size: 1.8rem;
+  bottom: 0;
+  right: 0;
+  padding: 2px;
+  text-align: center;
+  color: var(--color-opacity-two);
+  text-shadow: var(--text-outline);
+  transition: all 0.4s ease-in-out;
+  cursor: pointer;
+}
+.faves-btn span {
+  font-size: 0.75rem;
+}
+.drink-description {
+  text-align: center;
+}
+.favorite-container .faves-btn i {
+  font-size: inherit;
+}
+.favorite-container .faves-btn.favorite,
+.favorite-container .faves-btn:hover {
+  color: var(--text-outline-color-two);
+  text-shadow: var(--text-outline);
+}
+.tags {
+  display: flex;
+  flex-flow: wrap row;
+  gap: 0.6rem;
+  line-height: 1rem;
+  justify-content: space-around;
+  cursor: default;
+}
+.tags .card-tag {
+  text-align: center;
+  max-width: fit-content;
+  background-color: var(--color-four);
+  color: var(--color-one);
+  text-shadow: var(--text-outline);
+  padding: 0.2rem 0.6rem;
+  border-radius: 50px;
+  border: 1px solid var(--color-two);
+  box-shadow: var(--shadow-one);
+  font-size: 0.9rem;
+  letter-spacing: 0.08rem;
+}
+
+.card-container.table {
+  display: flex;
+  flex-flow: column;
+  gap: 32px;
+}
+.card-container.table .card {
+  border: 1px solid var(--color-two);
+  border-radius: 2px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  padding-bottom: 50px;
+}
+
+.card-container.table .card .img-container {
+  max-width: 700px;
+  min-width: 280px;
+  flex: 1;
+}
+.card-container.table .card h2 {
+  position: absolute;
+  bottom: 0;
+  border-top: 2px solid var(--color-four);
+}
+.card-container.table .card .card-text {
+  flex: 1;
+}
+.card-container .card .img-container img {
+  padding: 1px;
+  width: 100%;
+  box-shadow: var(--shadow-three);
+  border: 1px solid var(--color-two);
+}
+
+@media (min-width: 1024px) {
+  .grid .card:hover {
+    transform: scale(1.02);
+  }
+  .card:hover .img-container img {
+    transform: scale(1.08);
+  }
+}
+@media (max-width: 1023px) {
+  .card-container {
+    padding: 2px;
+  }
+}

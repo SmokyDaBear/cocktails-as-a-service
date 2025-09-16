@@ -1,0 +1,88 @@
+<!--Dropdown Menu-->
+<div class="dropdown-list column-flex" id="settings-list">
+  <h3>Filters <i class="fa-solid fa-gears"></i></h3>
+  <!--toggle show only non-alcoholic drinks-->
+  <div class="inline-flex space-around">
+    <h4>Hide Alcoholic Drinks</h4>
+    <button
+      data-toggleBtn="isSober"
+      data-isSober="true"
+      class="settings-btn btn"
+    >
+      <i class="fa-solid fa-toggle-off"></i>
+    </button>
+  </div>
+  <div class="inline-flex space-around">
+    <h4>Show Alcoholic Drinks</h4>
+    <button
+      data-toggleBtn="isSober"
+      data-isSober="false"
+      class="settings-btn btn"
+    >
+      <i class="fa-solid fa-toggle-off"></i>
+    </button>
+  </div>
+  <!--toggle filter by drink name-->
+  <div class="inline-flex space-around">
+    <h4>Search by Name</h4>
+    <button
+      data-toggleBtn="filterMethod"
+      data-filterMethod="name"
+      class="settings-btn btn"
+    >
+      <i class="fa-solid fa-toggle-off"></i>
+    </button>
+  </div>
+  <!--toggle filter by ingredient-->
+  <div class="inline-flex space-around">
+    <h4>Search by Ingredient</h4>
+    <button
+      data-toggleBtn="filterMethod"
+      data-filterMethod="ingredient"
+      class="settings-btn btn"
+    >
+      <i class="fa-solid fa-toggle-off"></i>
+    </button>
+  </div>
+  <h3>Sort <i class="fa-solid fa-arrow-down-a-z"></i></h3>
+  <!--Sort a-z or z-a-->
+  <div class="inline-flex space-around">
+    <h4>A-Z Alphabetical</h4>
+    <button
+      data-toggleBtn="sortMethod"
+      data-sortMethod="aZ"
+      class="settings-btn btn"
+    >
+      <i class="fa-solid fa-toggle-off"></i>
+    </button>
+  </div>
+  <div class="inline-flex space-around">
+    <h4>Z-A Alphabetical</h4>
+    <button
+      data-toggleBtn="sortMethod"
+      data-sortMethod="zA"
+      class="settings-btn btn"
+    >
+      <i class="fa-solid fa-toggle-off"></i>
+    </button>
+  </div>
+
+  <h3>Display Style <i class="fa-solid fa-users-viewfinder"></i></h3>
+  <div class="inline-flex space-around">
+    <h4>Grid View <i class="fa-solid fa-table-cells-large"></i></h4>
+    <button data-cardDisplay="grid" class="settings-btn btn">
+      <i class="fa-solid fa-toggle-off"></i>
+    </button>
+  </div>
+  <div class="inline-flex space-around">
+    <h4>List View <i class="fa-solid fa-table-list"></i></h4>
+    <button data-cardDisplay="list" class="settings-btn btn">
+      <i class="fa-solid fa-toggle-off"></i>
+    </button>
+  </div>
+  <h3>Other <i class="fa-solid fa-puzzle-piece"></i></h3>
+  <!--find a random drink-->
+  <button class="settings-btn btn" data-search="random">
+    Random Drink <i class="fa-solid fa-shuffle"></i>
+  </button>
+</div>

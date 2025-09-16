@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/e2ce56d5a4.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="./styles/theme.css  " />
+    <link rel="stylesheet" href="./styles/styles.css" />
+    <link rel="stylesheet" href="./styles/responsive.css" />
+    <link rel="icon" href="./assets/caas-logo-notext.png" />
+    <link rel="stylesheet" href="./styles/cards.css" />
+    <link rel="stylesheet" href="./styles/modals.css" />
+    <title>Cocktails As A Service</title>
+  </head>
+  <body>
+    <header>
+      <div class="top-bar">
+        <div class="horizontal-dt">
+          <div class="logo-container">
+            <img src="./assets/caas-logo-notext.png" alt="logo" />
+          </div>
+          <div class="column-flex">
+            <h1 class="special-heading color-two">Cocktails As A Service</h1>
+            <p class="sub-heading color-four">
+              Quality cocktail recipes for every occasion
+            </p>
+          </div>
+        </div>
+      </div>
+      <!--Navigation/Menu Bar-->
+      <nav id="nav-bar">
+        <div class="logo-container small">
+          <img src="./assets/caas-logo-notext.png" alt="" />
+        </div>
+        <ul class="unstyled-list nav-list" id="nav-list">
+          <li><a href="../">Home</a></li>
+          <li><a href="../#drinks-section">Drinks</a></li>
+          <li><a href="../#about">About</a></li>
+          <li><a href="../#favorites">Favorites</a></li>
+          <li class="horizontal-dt gap-6">
+            <p class="special-heading color-one">Search</p>
+            <div class="search-bar">
+              <input
+                type="text"
+                name="search-bar"
+                class="search-bar-input"
+                id="search-bar"
+                data-keysearch="#results-container"
+              /><i
+                class="fa-solid fa-magnifying-glass search-btn"
+                data-activate="search-bar"
+              ></i>
+            </div>
+          </li>
+          <li>
+            <!--Filters and settings for search results-->
+            <div class="relative-anchor flex-center">
+              <!--Dropdown button-->
+              <i class="fa-solid fa-sliders" data-activate="settings-list"></i
+              ><span> Search Settings</span>
+              <!--Dropdown Menu-->
+              <div class="dropdown-list column-flex" id="settings-list">
+                <h3>Filters <i class="fa-solid fa-gears"></i></h3>
+                <!--toggle show only non-alcoholic drinks-->
+                <div class="inline-flex space-between">
+                  <h4>Hide Alcoholic Drinks</h4>
+                  <i
+                    data-toggleBtn="isSober"
+                    class="fa-solid fa-toggle-off"
+                  ></i>
+                </div>
+                <!--toggle filter by drink name-->
+                <div class="inline-flex space-between">
+                  <h4>Search by Name / Ingredient</h4>
+                  <i
+                    data-toggleBtn="filterByIngredient"
+                    class="fa-solid fa-toggle-off"
+                  >
+                  </i>
+                </div>
+                <h3>Sort <i class="fa-solid fa-arrow-down-a-z"></i></h3>
+                <!--Sort a-z or z-a-->
+                <div class="inline-flex space-between">
+                  <h4>A-Z Alphabetical</h4>
+                  <i
+                    data-toggleBtn="sortReverse"
+                    class="fa-solid fa-toggle-off"
+                  >
+                  </i>
+                  <h4>Z-A Alphabetical</h4>
+                </div>
+                <h3>
+                  Display Style <i class="fa-solid fa-users-viewfinder"></i>
+                </h3>
+                <div class="inline-flex space-between">
+                  <h4>
+                    Grid View <i class="fa-solid fa-table-cells-large"></i>
+                  </h4>
+                  <i
+                    data-toggleBtn="displayTable"
+                    class="fa-solid fa-toggle-off"
+                  >
+                  </i>
+                  <h4>List View <i class="fa-solid fa-table-list"></i></h4>
+                </div>
+                <h3>Other <i class="fa-solid fa-puzzle-piece"></i></h3>
+                <!--find a random drink-->
+                <div class="inline-flex space-between">
+                  <h4>Random Drink</h4>
+                  <i class="fa-solid fa-shuffle" data-search="random"> </i>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <i
+          class="fa-solid fa-bars menu-btn"
+          id="menu-btn"
+          data-activate="nav-list"
+        ></i>
+        <i data-deactivate="nav-list" class="fa-solid fa-x menu-btn"></i>
+      </nav>
+    </header>
+    <!--Hero-->
+    <main>
+      <section class="hero-section">
+        <h1 class="hero-text"></h1>
+      </section>
+      <!--Drinks-->
+      <section id="drinks-section">
+        <div class="container">
+          <h2 class="special-heading color-one">Browse Recipes</h2>
+          <p class="sub-heading color-three">
+            View the vast collection of available drink recipes for beverage
+            connoisseurs.
+          </p>
+          <div class="no-results hidden">
+            <h4>
+              No results found for "<span class="no-results-text"></span>".
+            </h4>
+          </div>
+          <div class="card-container grid" id="results-container"></div>
+        </div>
+      </section>
+      <!--About-->
+      <section id="about">
+        <div class="container bg-four">
+          <div class="container bg-two color-one">
+            <h2 class="special-heading">About</h2>
+            <br />
+            <p class="color-one text-center">
+              Cocktails as a service is a site dedicated to delivering drink
+              recipes, primarily alcoholic cocktails. Browse the selection, or
+              try searching to find what you are looking for.
+            </p>
+          </div>
+        </div>
+      </section>
+      <!--Favorites-->
+      <section class="container color-two bg-one">
+        <h1 class="special-heading">Favorites</h1>
+        <p class="sub-heading color-four">
+          Favorited Recipes can be found here.
+        </p>
+        <br />
+        <div id="favorites" class="container card-container grid"></div>
+      </section>
+      <!--Modal Container-->
+      <section id="modal-container" class="modal-container active"></section>
+    </main>
+    <footer>
+      <div class="container horizontal-dt" id="footer-container">
+        <div class="column-flex">
+          <div class="logo-container">
+            <img src="./assets/caas-logo.png" alt="logo" />
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="./scripts/global-vars.js"></script>
+    <script src="./scripts/classes/drinks.js"></script>
+    <script src="./scripts/classes/ingredients.js"></script>
+    <script src="./scripts/search.js"></script>
+    <script src="./scripts/index.js"></script>
+  </body>
+</html>
