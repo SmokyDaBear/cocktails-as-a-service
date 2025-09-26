@@ -8,7 +8,7 @@ const vodkaData = {
   strABV: "40",
 };
 
-class Ingredient {
+export class Ingredient {
   constructor(ingredient) {
     this.id = ingredient.idIngredient;
     this.name = ingredient.strIngredient;
@@ -16,5 +16,33 @@ class Ingredient {
     this.type = ingredient.strType;
     this.isAlcoholic = ingredient.strAlcohol == "Yes";
     this.aloholContent = ingredient.strABV;
+  }
+  printIngredient() {
+    for (let [key, val] of this) {
+      console.log(`${key} - ${val}`);
+    }
+  }
+  createFullCard() {
+    return `
+    <div>
+    <p> ${this.name}</p>
+    <p>${this.description}</p> 
+    </div>
+    
+    `;
+  }
+  static validateIngredientsData(data) {
+    for (let value of [
+      data.idIngredient,
+      data.strIngredient,
+      data.strDescription,
+      data.strType,
+      data.strAlcohol,
+    ]) {
+      if (!value) {
+        return false;
+      }
+    }
+    return true;
   }
 }

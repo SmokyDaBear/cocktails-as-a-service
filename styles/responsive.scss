@@ -1,19 +1,4 @@
-body {
-  background-color: rgb(254, 240, 219);
-  color: rgb(74, 40, 25);
-}
-
-.hero-section {
-  background-image: url(../assets/drink-3507413_1920.jpg);
-  width: 100%;
-  min-height: 600px;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: 80% 90%;
-  -o-object-fit: contain;
-     object-fit: contain;
-}
-
+@import 'theme';
 @media (min-width: 1024px) {
   .horizontal-dt {
     flex-direction: row;
@@ -26,9 +11,9 @@ body {
   a:hover,
   i:focus,
   a:focus {
-    color: rgb(255, 181, 71);
+    color: $color-highlight;
     transform: scale(1.1);
-    text-shadow: -1px -1px 0 rgb(92, 62, 24), 1px -1px 0 rgb(92, 62, 24), -1px 1px 0 rgb(92, 62, 24), 1px 1px 0 rgb(92, 62, 24);
+    text-shadow: $text-outline;
     cursor: pointer;
   }
   i:hover + span {
@@ -78,7 +63,7 @@ body {
   }
   #nav-bar .nav-list {
     position: fixed;
-    top: 60px;
+    top: $navbar-height;
     flex-direction: column;
     gap: 32px;
     width: 100%;
@@ -89,7 +74,7 @@ body {
     transition: all 0.6s;
   }
   #nav-bar .nav-list.active {
-    background-color: rgba(71, 71, 71, 0.514);
+    background-color: $color-opacity;
     visibility: visible;
     opacity: 1;
     z-index: 100;
@@ -98,7 +83,7 @@ body {
   .nav-list li {
     width: 100%;
     text-align: center;
-    border-top: rgb(74, 40, 25);
+    border-top: $color-two;
   }
   .search-bar .search-bar-input {
     visibility: visible;
@@ -120,7 +105,7 @@ body {
     border: none;
   }
   .dropdown-list.active {
-    background-color: rgba(71, 71, 71, 0.514);
+    background-color: $color-opacity;
   }
 }
 @media (max-width: 440px) {
@@ -136,4 +121,4 @@ body {
   .sub-heading {
     font-size: 1rem;
   }
-}/*# sourceMappingURL=responsive.css.map */
+}

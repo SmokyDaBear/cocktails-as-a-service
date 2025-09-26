@@ -1,31 +1,8 @@
-:root {
-  --color-one: rgb(254, 240, 219);
-  --color-two: rgb(74, 40, 25);
-  --color-three: rgb(239, 164, 50);
-  --color-four: rgb(167, 106, 50);
-  --color-opacity: rgba(71, 71, 71, 0.514);
-  --color-opacity-two: rgba(236, 226, 217, 0.178);
-  --color-opacity-text: rgb(253, 244, 228);
-  --shadow-one: 5px 5px 16px var(--color-opacity);
-  --shadow-two: 5px 5px 16px var(--color-opacity-two);
-  --shadow-three: 1px 2px 12px var(--color-opacity);
-  --text-outline-color: rgb(92, 62, 24);
-  --text-outline-color-two: rgb(230, 199, 100);
-  --text-outline: -1px -1px 0 var(--text-outline-color),
-    1px -1px 0 var(--text-outline-color), -1px 1px 0 var(--text-outline-color),
-    1px 1px 0 var(--text-outline-color);
-  --text-outline-two: -1px -1px 0 var(--text-outline-color-two),
-    1px -1px 0 var(--text-outline-color-two),
-    -1px 1px 0 var(--text-outline-color-two),
-    1px 1px 0 var(--text-outline-color-two);
-  --color-highlight: rgb(255, 181, 71);
-  --navbar-height: 60px;
-  --border-one: 2px solid var(--color-three);
-}
 body {
-  background-color: var(--color-one);
-  color: var(--color-two);
+  background-color: rgb(254, 240, 219);
+  color: rgb(74, 40, 25);
 }
+
 .hero-section {
   background-image: url(../assets/drink-3507413_1920.jpg);
   width: 100%;
@@ -33,5 +10,6 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 80% 90%;
-  object-fit: contain;
-}
+  -o-object-fit: contain;
+     object-fit: contain;
+}/*# sourceMappingURL=theme.css.map */

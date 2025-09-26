@@ -1,0 +1,219 @@
+import { Drink } from "../classes/drinks.js";
+import { Ingredient } from "../classes/ingredients.js";
+import { fetchData, searchMethods } from "./search.js";
+import { slideshowLoop } from "./slideshow.js";
+const favoriteDrinksKey = "favorite-drinks";
+
+const activeClass = "active";
+//screen size query function
+export const checkIfMobile = () =>
+  window.matchMedia("(max-width: 1023px)").matches;
+
+export const formatSimple = (text) => String(text).toLowerCase().trim();
+
+/**
+ *
+ * @param {*} parentElm - the containing element to have its children sorted
+ * sorts the drinks by name, also removes duplicates
+ */
+export const sortDrinks = (config) => {
+  const getNameCB = config.getDataset.drinkName;
+  const { favorites, drinks } = config.elementContainers;
+  for (const parentElm of [favorites, drinks]) {
+    let children = [...parentElm.children];
+    children.sort((a, b) => {
+      const nameA = formatSimple(getNameCB(a));
+      const nameB = formatSimple(getNameCB(b));
+      if (nameA == nameB) {
+        b.remove();
+      }
+      if (!config.settings.sortReverse) {
+        return nameA.localeCompare(nameB);
+      } else {
+        return nameB.localeCompare(nameA);
+      }
+    });
+    for (let elm of children) {
+      parentElm.appendChild(elm);
+    }
+  }
+};
+
+/**
+ *
+ * @param {} e - either the click event, or the id# of a drink
+ *
+ * creates a modal for a drink if it has a valid id
+ */
+export const createModal = async (id, config) => {
+  const { favorites } = config.settings;
+  const modalContainer = config.elementContainers.modal;
+  const isFavorite = favorites.has(parseInt(id)) || false;
+  return fetchData(searchMethods.id(id)).then((drink) => {
+    modalContainer.innerHTML = drink[0].createModalCard(isFavorite);
+    modalContainer.classList.add(activeClass);
+  });
+};
+
+/**
+ * Retrieves data from API, then populates the relevant container
+ */
+export const getFavorites = async (config) => {
+  for (let fave of config.settings.favorites) {
+    const id = parseInt(fave);
+    try {
+      if (!Number.isInteger(fave)) {
+        throw new Error("Invalid id for fetch request: ", id);
+      }
+      fetchData(searchMethods.id(id)).then((data) => {
+        config.elementContainers.favorites.innerHTML +=
+          data[0].createFullCard(true);
+      });
+    } catch (err) {
+      console.log(
+        "Error retrieving from database id: ",
+        id,
+        " error - ",
+        err.message || err
+      );
+    }
+  }
+};
+
+/**
+ *
+ * @param {*} [idStr, btn] - is is the drinkId, btn is the button element
+ * @param {*} config - config object
+ *
+ * swaps an element between favorites and the search results container,
+ * and adds or removes its id from the favorites variable, then saves it to local storage
+ * also removes duplicates, in the case that there are any.
+ *
+ */
+export const toggleFavorite = ([idStr, btn], config) => {
+  const id = parseInt(idStr);
+  const { favorites, drinks } = config.elementContainers;
+  let removeFrom, addTo;
+  if (!Number.isInteger(id))
+    throw new Error(`Cannot toggle favorite "${id}" is NaN`);
+  if (config.settings.favorites.has(id)) {
+    btn.parentElement.classList.remove("favorite");
+    config.settings.favorites.delete(id);
+    [removeFrom, addTo] = [favorites, drinks];
+  } else {
+    btn.parentElement.classList.add("favorite");
+    new Promise((resolve) => setTimeout(resolve, 5000));
+    config.settings.favorites.add(id);
+    [removeFrom, addTo] = [drinks, favorites];
+  }
+  const cardNodes = removeFrom.querySelectorAll(`[data-drink-id="${id}"]`); // used instead of btn.parentElement.parentElement.etc. in case if in a modal.
+  if (cardNodes.length > 0) addTo.append(cardNodes[0]);
+  if (cardNodes.length > 1) {
+    let isFirst = true;
+    cardNodes.forEach((node) => {
+      if (isFirst) {
+        isFirst = false;
+      } else {
+        node.remove();
+      }
+    });
+  }
+
+  localStorage.setItem(favoriteDrinksKey, [...config.settings.favorites]);
+};
+export const addActive = (id) => {
+  const elm = document.getElementById(id);
+  elm.classList.add(activeClass);
+};
+
+export const removeActive = (id) => {
+  const elm = document.getElementById(id);
+  elm.classList.remove(activeClass);
+};
+
+/**
+ *
+ * @param {*} e -the event target
+ *
+ * this removes the "active" class from ALL elements unless it is the same element
+ * that was clicked on, is a direct parent of the target element, or has an id
+ * matching the [data-activate] dataset
+ */
+export const closeAll = (e) => {
+  const target = e.target;
+  for (let elm of document.querySelectorAll(`.${activeClass}`)) {
+    if (!target === elm || !elm.contains(target)) {
+      elm.classList.remove(activeClass);
+    }
+  }
+};
+
+const getFeaturedDrinks = async (config) => {
+  const ids = config.settings.isSober
+    ? config.featuredDrinkIds.sober
+    : config.featuredDrinkIds.alcoholic;
+  config.elementContainers.featured.innerHTML = "";
+  await Promise.allSettled(
+    ids.map(async (id) =>
+      fetchData(searchMethods.id(id)).then((data) => {
+        config.elementContainers.featured.innerHTML += data[0].createFullCard();
+      })
+    )
+  );
+
+  console.log("Starting slideshow");
+  slideshowLoop(config);
+};
+
+const getRandomSelection = async (config) => {
+  const promises = [];
+  if (config.settings.isSober) {
+    promises.push(fetchData(searchMethods.soberDrinks()));
+    return promises;
+  }
+
+  let numSoFar = 0;
+  while (numSoFar <= config.settings.numDrinksPerPage) {
+    promises.push(fetchData(searchMethods.random()));
+    numSoFar += 2;
+  }
+  return promises;
+};
+
+const updateDrinks = async (promises, config) => {
+  Promise.allSettled(promises).then((data) => {
+    data.forEach((promise) => {
+      const drinks = promise.value;
+      drinks.forEach((drink) => {
+        const isFave = config.settings.favorites.has(drink.id) || false;
+        config.elementContainers.drinks.innerHTML +=
+          drink.createFullCard(isFave);
+      });
+    });
+  });
+};
+
+/**
+ *
+ * @param {*} config
+ * Builds the page either on load, or when isSober option is changed
+ */
+export const buildPage = async (config) => {
+  const { drinks, noResults, stats, featured, favorites } =
+    config.elementContainers;
+  noResults.innerText = "";
+  for (const container of [drinks, stats, featured, favorites]) {
+    container.innerHTML = "";
+  }
+  getFeaturedDrinks(config).catch((err) =>
+    console.log("Error fetching featured Drinks: ", err.message || err)
+  );
+  getFavorites(config).catch((err) =>
+    console.log("Error fetching favorites : ", err.message || err)
+  );
+  getRandomSelection(config)
+    .then((promises) => updateDrinks(promises, config))
+    .catch((err) =>
+      console.log("Error retrieving drinks selection", err.message || err)
+    );
+};

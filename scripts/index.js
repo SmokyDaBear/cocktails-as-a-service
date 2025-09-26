@@ -1,238 +1,175 @@
-//Setting switch toggles
-const toggleSetting = (e) => {
-  const btn = e.target;
-  const setting = btn.dataset.togglebtn;
-  const curVal = settings[setting];
-  settings[setting] = !curVal;
-  btn.classList.toggle(toggleOn);
-  btn.classList.toggle(toggleOff);
-  updateSettings(setting);
+import { changeSlide, slideshowLoop } from "./additional/slideshow.js";
+import {
+  addActive,
+  removeActive,
+  closeAll,
+  createModal,
+  toggleFavorite,
+  formatSimple,
+  getFavorites,
+  buildPage,
+} from "./additional/additional.js";
+
+import {
+  searchMethods,
+  fetchData,
+  searchEnter,
+  updateSearchResults,
+  searchClick,
+  showMoreResults,
+} from "./additional/search.js";
+
+import { getSettings, toggleSetting } from "./additional/settings.js";
+
+//URL for the db, as well as simple functions for different search methods:
+const dbURL = "https://www.thecocktaildb.com/api/json/v1/1/";
+
+//For reference
+const elmDatasets = {
+  activate: "[data-activate]",
+  deactivate: "[data-deactivate]",
+  toggleBtn: "[data-toggle-btn]",
+  modal: "[data-create-modal]",
+  searchBar: "[data-key-search]",
+  random: `[data-search="random"]`,
+  changeSlide: `[data-change-slide]`,
 };
 
-const updateSettings = (setting) => {
-  let { isSober, filterByIngredient, sortReverse, displayTable } = settings;
-  if (setting == "displayTable") {
-    const [classToAdd, classToRemove] = displayTable
-      ? ["table", "grid"]
-      : ["grid", "table"];
-    const cardContainers = document.querySelectorAll(".card-container");
-    for (let c of cardContainers) {
-      c.classList.replace(classToRemove, classToAdd);
-    }
-  }
-  if (setting == "sortReverse") {
-    sortDrinks(drinksContainer);
-    sortDrinks(favoritesContainer);
-  }
-  if (setting == "isSober" && settings.isSober) {
-    console.log("Ahh sober... Lame lol");
-  }
+//TODO:Fix the carousel initial start
+//TODO:Get search working
+//TODO: *** Get localstorage working ****
+
+const config = {
+  elmClasses: {
+    active: "active",
+    hidden: "hidden",
+    searchBar: "search-bar",
+    searchBtn: "search-btn",
+    toggleOn: "fa-toggle-on",
+    toggleOff: "fa-toggle-off",
+    playBtn: "fa-play",
+    pauseBtn: "fa-pause",
+  },
+  elementContainers: {
+    drinks: document.getElementById("results-container"),
+    noResults: document.getElementById("no-results"),
+    stats: document.getElementById("stats-container"),
+    favorites: document.getElementById("favorites"),
+    modal: document.getElementById("modal-container"),
+    featured: document.getElementById("featured"),
+    hero: document.getElementById("hero-section"),
+    showMore: document.getElementById("show-more"),
+  },
+  getDataset: {
+    activate: (elm) => elm.dataset.activate || false,
+    deactivate: (elm) => elm.dataset.deactivate || false,
+    toggleBtn: (elm) => elm.dataset.toggleBtn || false,
+    modal: (elm) => elm.dataset.createModal || false,
+    drinkName: (elm) => elm.dataset.drinkName || false,
+    toggleFave: (elm) =>
+      elm.dataset.addFavorite ? [elm.dataset.addFavorite, elm] : false,
+    changeSlide: (elm) => elm.dataset.changeSlide || false,
+    search: (elm) => (elm.dataset.clickSearch ? elm : false),
+    showMore: (elm) => elm.dataset.showMore || false,
+  },
+  featuredDrinkIds: {
+    alcoholic: [11007, 12528, 17105, 11001, 11728],
+    sober: [12862, 12710, 12730, 12782, 12726],
+  },
+  drinkCache: {
+    prev: {},
+    curr: {},
+    next: {},
+  },
 };
 
-/**
- *
- * @param {} e - either the clickevent, or the id# of a drink
- *
- * creates a modal for a drink if it has a valid id
- */
-const createModal = async (id) => {
-  const drink = drinksStorage.get(id);
-  const isFavorite = favorites.has(parseInt(id));
-  const divText = drink.createModalCard(isFavorite);
-  modalContainer.innerHTML = divText;
-  setTimeout(console.log("hi"), 3000);
-  modalContainer.classList.add(activeClass);
-};
+getSettings(config);
 
-/**
- *
- * @param {*} parentElm - the containing element to have its children sorted
- * sorts the drinks by name, also removes duplicates
- */
-const sortDrinks = (parentElm) => {
-  let drinks = [...parentElm.childNodes];
-  drinks.sort((a, b) => {
-    const nameA = formatSimple(a.dataset.drinkname);
-    const nameB = formatSimple(b.dataset.drinkname);
-    if (nameA == nameB) {
-      b.remove();
-    }
-    if (!settings.sortReverse) {
-      return nameA.localeCompare(nameB);
-    } else {
-      return nameB.localeCompare(nameA);
-    }
-  });
-  for (let drink of drinks) {
-    parentElm.appendChild(drink);
-  }
-};
-
-const randButtons = document.querySelectorAll(randomData);
-
-/**
- *
- * @param {*} container - element to populate with search results
- * @param  {...any} idsArr - Array of ids to add cards for
- *
- * Takes in an array of ids, creates an html card for them, and adds it
- * to the chosen container
- */
-const addDrinks = async (container, ...idsArr) => {
-  const ids = idsArr.flat().map((id) => parseInt(id));
-  for (const id of ids) {
-    try {
-      if (!drinksStorage.has(id)) {
-        throw new Error(`"${id}" is not found in storage`);
-      }
-      const drink = drinksStorage.get(id);
-      const isFave = favorites.has(id);
-      container.innerHTML += drink.createFullCard(isFave);
-    } catch (err) {
-      console.log("Error populating favorites container: ", err.message || err);
-    }
-  }
-};
-
-/**
- *
- * @param {*} container - element to populate with fetched results
- *
- * This fills the container with the initial fetched results on a page load
- */
-const populateAllDrinks = async (container) => {
-  container.innerHTML = "";
-  for (let [id, drink] of drinksStorage.entries()) {
-    const isAFavoriteDrink = favorites.has(id);
-    container.innerHTML += drink.createFullCard(isAFavoriteDrink);
-  }
+const eventHandler = {
+  activate: (id) => addActive(id),
+  deactivate: (id) => removeActive(id),
+  toggleBtn: (setting) => toggleSetting(setting, config),
+  changeSlide: (e) => changeSlide(e, config),
+  modal: (id) => createModal(id, config),
+  toggleFave: (id) => toggleFavorite(id, config),
+  drinkName: (name) => console.log("You clicked on " + name),
+  search: (elm) => searchClick(elm, config),
+  showMore: (id) => showMoreResults(id, config),
 };
 
 /**
- * Retrieves data from API, then populates the relevant container
+ *
+ * @param {*} e -event
+ * hides elements not matching search results
  */
-const getFavorites = async () => {
-  const promises = [];
-  for (let fave of favorites) {
-    const id = parseInt(fave);
-    if (!drinksStorage.has(id)) {
-      promises.push(fetchData(searchMethods.id(id)));
-    }
-  }
-  Promise.all(promises).then(() => {
-    const ids = [...favorites];
-    console.log("favorites to add: ", ids);
-    addDrinks(favoritesContainer, ids);
-  });
+const hideOnKeyup = (e) => {
+  const containerId = e.target.dataset.keySearch;
+  const filterText = formatSimple(e.target.value);
+  const parentContainer = document.querySelector(containerId);
+  updateSearchResults(filterText, parentContainer, config);
 };
 
-const startTheParty = async () => {
-  const promises = [];
-  let numDrinks = favorites.length || 0;
-  promises.push(getFavorites());
+//Event Handling
 
-  while (numDrinks < numDrinksPerPage) {
-    promises.push(getRandomDrink());
-    numDrinks++;
-  }
-  Promise.allSettled(promises).then(() => {
-    populateAllDrinks(drinksContainer);
-  });
-};
-
-const toggleFavorite = (e) => {
+const handleClickEvent = (e) => {
   const target = e.target;
-  const id = parseInt(target.dataset.addfavorite);
-
-  if (favorites.has(id)) {
-    removeFavorite(id);
-    target.classList.remove("favorite");
-    favoritesContainer.childNodes.forEach((node) => {
-      if (parseInt(node.dataset.drinkId) == id) {
-        node.remove();
-      }
-    });
-  } else {
-    addFavorite(id);
-    target.classList.add("favorite");
-    addDrinks(favoritesContainer, id);
-  }
-};
-
-const searchBars = document.querySelectorAll(searchBarClass);
-for (let bar of searchBars) {
-  bar.addEventListener("keyup", searchEnter);
-}
-
-const searchBtns = document.querySelectorAll(searchBtnClass);
-for (let btn of searchBtns) {
-  btn.addEventListener("click", searchClick);
-}
-
-const searchInputs = document.querySelectorAll(keySearchData);
-for (let searchInput of searchInputs) {
-  searchInput.addEventListener("keyup", hideOnKeyup);
-}
-const addActive = (e) => {
-  const id = e.target.dataset.activate;
-  const elm = document.getElementById(id);
-  elm.classList.add(activeClass);
-};
-const removeActive = (e) => {
-  const id = e.target.dataset.deactivate;
-  const elm = document.getElementById(id);
-  elm.classList.remove(activeClass);
-};
-
-/**
- *
- * @param {*} e -the event target
- *
- * this removes the "active" class from ALL elements unless it is the same element
- * that was clicked on, is a direct parent of the target element, or has an id
- * matching the [data-activate] dataset
- */
-const closeAll = (e) => {
-  const target = e.target;
-  for (let elm of document.querySelectorAll(`.${activeClass}`)) {
-    console.log(elm);
-    if (!target === elm || !elm.contains(target)) {
-      elm.classList.remove(activeClass);
+  let shouldClose = true;
+  for (let [key, value] of Object.entries(config.getDataset)) {
+    const val = value(target);
+    if (val) {
+      eventHandler[key](val);
+      shouldClose = false;
+      break;
     }
   }
+  if (shouldClose) closeAll(e);
 };
 
-const windowClick = (e) => {
-  const data = e.target.dataset;
-  if (data.activate) {
-    console.log("activator - ", data.activate);
-    addActive(e);
-  } else if (data.deactivate) {
-    console.log("deactivator - ", data.deactivate);
-    removeActive(e);
-  } else if (data.togglebtn) {
-    console.log("toggle switch - ", data.togglebtn);
-    toggleSetting(e);
-  } else if (data.search === "random") {
-    console.log("random! :)");
-    getRandomDrink().then((idArr) => {
-      addDrinks(drinksContainer, idArr[0]);
-      createModal(idArr[0]);
-    });
-  } else if (data.createmodal) {
-    const id = parseInt(data.createmodal);
-    createModal(id);
-  } else if (data.addfavorite) {
-    console.log("favorite toggler - ", data.addfavorite);
-    toggleFavorite(e);
-  } else {
-    console.log("closing all..");
-    closeAll(e);
-  }
-};
-
-window.addEventListener("click", windowClick);
-
-startTheParty().then(() => {
-  console.log("Party has been set");
+config.elementContainers.hero.addEventListener("mouseenter", () => {
+  config.settings.pauseSlideshow = true;
 });
+config.elementContainers.hero.addEventListener("mouseleave", () => {
+  config.settings.pauseSlideshow = false;
+});
+document.querySelectorAll(elmDatasets.searchBar).forEach((elm) => {
+  elm.addEventListener("keyup", (e) => searchEnter(e, config));
+  elm.addEventListener("keyup", hideOnKeyup);
+});
+
+window.addEventListener("click", handleClickEvent);
+
+buildPage(config);
+
+//Offline testing
+const sudoGetExamples = (numCards, container) => {
+  const exampleCard = (
+    number
+  ) => `  <div class="drink-card card current" data-drink-id="12726" data-drink-name="Example ${number}">
+              <div class="img-container favorite-container">
+              <div class="faves-btn  column-flex">
+                  <i class="fa-solid fa-heart" data-add-favorite="12726" aria-hidden="true"></i><span>Favorites</span>
+                </div>
+                <img src="../assets/cocktail-6713320_1920.jpg" alt="Tomato Tang">
+                
+              </div>
+              <h2 class="special-heading card-title">Drink ${number}</h2>
+              <div class="card-text">
+                <h3 class="special-heading">Ingredients</h3>
+                <p></p><p>Tomato juice - 2 cups </p><p>Lemon juice - 1-2 tblsp </p><p>and 1 more...</p>
+                  <div class="tags">
+                  <p class="card-tag">Non-Alcoholic</p><p class="card-tag"> + 1 more...</p>
+                </div>
+                <span data-create-modal="12726" class="pill-btn">See Full Recipe <i class="fa-solid fa-circle-info" data-create-modal="12726" aria-hidden="true"></i></span>
+              </div>
+            </div>`;
+  for (let num = 1; num <= numCards; num++) {
+    if (num < 10) {
+      num = 0 + String(num);
+    }
+    container.innerHTML += exampleCard(num);
+  }
+};
+// sudoGetExamples(6, config.elementContainers.featured);
+// slideshowLoop(config);
+// sudoGetExamples(30, config.elementContainers.drinks);
+// getFavorites(config);

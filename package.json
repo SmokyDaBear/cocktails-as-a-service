@@ -1,0 +1,21 @@
+{
+  "name": "cocktails-as-a-service",
+  "version": "1.0.1",
+  "description": "<h1>CAAS - Cocktails As A Service<h1>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SmokyDaBear/cocktails-as-a-service.git"
+  },
+  "keywords": [],
+  "author": "SmokyDaBear",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/SmokyDaBear/cocktails-as-a-service/issues"
+  },
+  "homepage": "https://github.com/SmokyDaBear/cocktails-as-a-service#readme"
+}

@@ -1,27 +1,187 @@
-.card {
+body {
+  background-color: rgb(254, 240, 219);
+  color: rgb(74, 40, 25);
+}
+
+.hero-section {
+  background-image: url(../assets/drink-3507413_1920.jpg);
+  width: 100%;
+  min-height: 600px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 80% 90%;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.slideshow-btns {
   display: flex;
-  background-color: var(--color-one);
-  color: var(--color-two);
-  box-shadow: var(--shadow-one);
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
 }
+.slideshow-btns i {
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: rgb(239, 164, 50);
+  transition: all 0.4s ease-in-out;
+}
+.slideshow-btns i:hover {
+  color: rgb(167, 106, 50);
+  text-shadow: 5px 5px 16px rgba(236, 226, 217, 0.178);
+  transform: scale(1.15);
+}
+
+.tags {
+  display: flex;
+  flex-flow: wrap row;
+  gap: 0.6rem;
+  line-height: 1rem;
+  justify-content: space-around;
+  cursor: default;
+}
+.tags .card-tag {
+  text-align: center;
+  max-width: -moz-max-content;
+  max-width: max-content;
+  background: radial-gradient(rgb(239, 164, 50), rgb(167, 106, 50));
+  color: rgb(254, 240, 219);
+  text-shadow: -1px -1px 0 rgb(92, 62, 24), 1px -1px 0 rgb(92, 62, 24), -1px 1px 0 rgb(92, 62, 24), 1px 1px 0 rgb(92, 62, 24);
+  padding: 0.2rem 0.6rem;
+  border-radius: 50px;
+  border: 1px solid rgb(74, 40, 25);
+  box-shadow: 5px 5px 16px rgba(71, 71, 71, 0.514);
+  font-size: 0.9rem;
+  letter-spacing: 0.08rem;
+}
+
+.favorite-container {
+  position: relative;
+}
+.favorite-container .faves-btn {
+  opacity: 0.5;
+  z-index: 2;
+  position: absolute;
+  font-size: 1.8rem;
+  bottom: 0;
+  right: 0;
+  padding: 2px;
+  text-align: center;
+  color: rgba(236, 226, 217, 0.178);
+  text-shadow: -1px -1px 0 rgb(92, 62, 24), 1px -1px 0 rgb(92, 62, 24), -1px 1px 0 rgb(92, 62, 24), 1px 1px 0 rgb(92, 62, 24);
+  transition: all 0.4s ease-in-out;
+  cursor: pointer;
+}
+.favorite-container .faves-btn span {
+  font-size: 0.75rem;
+}
+.favorite-container .faves-btn i {
+  font-size: inherit;
+}
+.favorite-container .faves-btn i:hover {
+  color: rgb(233, 55, 55);
+}
+.favorite-container .faves-btn.favorite, .favorite-container .faves-btn:hover, .favorite-container .faves-btn:focus {
+  color: rgb(233, 55, 55);
+  text-shadow: -1px -1px 0 rgb(92, 62, 24), 1px -1px 0 rgb(92, 62, 24), -1px 1px 0 rgb(92, 62, 24), 1px 1px 0 rgb(92, 62, 24);
+  opacity: 1;
+}
+
 #drinks-section .card {
-  box-shadow: var(--shadow-two);
+  box-shadow: 5px 5px 16px rgba(236, 226, 217, 0.178);
 }
+
+#featured {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  flex-direction: row;
+  overflow: hidden;
+  height: 500px;
+}
+#featured.table .card {
+  max-width: 800px;
+}
+#featured .card {
+  position: absolute;
+  opacity: 0;
+  z-index: 1;
+}
+#featured .card.current {
+  z-index: 10;
+  transform: none;
+  opacity: 1;
+  box-shadow: 5px 5px 16px rgba(236, 226, 217, 0.178);
+}
+#featured .card.next {
+  transform: translate(280px, 20px) scale(0.5);
+  opacity: 0.3;
+}
+#featured .card.previous {
+  transform: translate(-280px, 20px) scale(0.5);
+  opacity: 0.3;
+}
+
+.drink-description {
+  text-align: center;
+}
+
 .card,
 .card * {
   transition: all 0.4s ease-in-out;
   cursor: pointer;
   position: relative;
 }
+
 .card-container .drink-card.card.hidden {
-  display: none;
+  display: none !important;
 }
+
 .card-container {
   padding: 24px;
   display: flex;
   width: 100%;
   gap: 6px;
 }
+.card-container .card {
+  display: flex;
+  background-color: rgb(254, 240, 219);
+  color: rgb(74, 40, 25);
+  box-shadow: 5px 5px 16px rgba(71, 71, 71, 0.514);
+}
+.card-container .card .card-text p {
+  line-height: 0.9rem;
+}
+.card-container .card .img-container {
+  overflow: hidden;
+  width: 100%;
+}
+.card-container .card .img-container img {
+  width: 100%;
+  box-shadow: 1px 2px 12px rgba(71, 71, 71, 0.514);
+}
+.card-container .card .special-heading {
+  padding: 0.4rem 0.8rem;
+  background-color: rgb(74, 40, 25);
+  color: rgb(254, 240, 219);
+  border-radius: 30px;
+  box-shadow: 5px 5px 16px rgba(71, 71, 71, 0.514);
+  flex: 1;
+  width: 100%;
+  border-radius: 0;
+  margin-top: 0.3rem;
+}
+.card-container .card .card-text {
+  display: flex;
+  flex-direction: column;
+  padding: 0.6rem 0.8rem;
+  text-align: center;
+  background-color: rgb(254, 240, 219);
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
 .card-container.grid {
   padding: 2rem 0.3rem;
   flex-flow: row wrap;
@@ -35,130 +195,40 @@
   justify-content: flex-start;
   align-items: center;
   border-radius: 24px;
-  box-shadow: var(--shadow-two);
-  border: var(--border-one);
+  box-shadow: 5px 5px 16px rgba(236, 226, 217, 0.178);
+  border: 2px solid rgb(239, 164, 50);
   overflow: hidden;
-  box-shadow: var(--shadow-three);
-}
-.card-container.grid .card:hover .card-text,
-.card-container.grid .card .img-container:focus + .card-text {
-  visibility: visible;
-  opacity: 1;
-  transform: none;
-
-  overflow: visible;
-}
-.card-container.grid .card:hover .img-container {
-  opacity: 0.8;
-}
-.card .special-heading {
-  padding: 0.4rem 0.8rem;
-  background-color: var(--color-two);
-  color: var(--color-one);
-  border-radius: 30px;
-  box-shadow: var(--shadow-one);
-}
-.card h2.special-heading {
-  width: 100%;
-  border-radius: 0;
-  margin-top: 0.3rem;
-}
-.card-container .card-text {
-  display: flex;
-  flex-flow: column nowrap;
-  padding: 0.6rem 0.8rem;
-  text-align: center;
-  background-color: var(--color-one);
-  gap: 12px;
-  justify-content: center;
-  align-items: center;
+  box-shadow: 1px 2px 12px rgba(71, 71, 71, 0.514);
 }
 .card-container.grid .card .card-text {
+  height: -moz-fit-content;
   height: fit-content;
   visibility: hidden;
   position: absolute;
-  bottom: 4px;
+  top: 4px;
   opacity: 0;
   transform: translateY(100%);
   overflow: hidden;
-  box-shadow: var(--shadow-one);
+  box-shadow: 5px 5px 16px rgba(71, 71, 71, 0.514);
   width: 80%;
   border-radius: 8px;
-  border: 2px solid var(--color-four);
-  border-right: 1px solid var(--color-three);
-  border-bottom: 1px solid var(--color-three);
+  border: 2px solid rgb(167, 106, 50);
+  border-right: 1px solid rgb(239, 164, 50);
+  border-bottom: 1px solid rgb(239, 164, 50);
 }
-.card-container.table .card .card-text {
-  margin: auto;
-  line-height: 2rem;
-  width: 100%;
+.card-container.grid .card:hover .card-text, .card-container.grid .card .img-container:focus + .card-text {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+  overflow: visible;
 }
-.card-text p {
-  line-height: 0.9rem;
+.card-container.grid .card:hover .img-container img {
+  opacity: 0.8;
+  transform: scale(1.1);
 }
-.card-container.grid .card .img-container {
+.card-container.grid .card .img-container img {
   height: 100%;
   top: 0;
-}
-.card .img-container {
-  overflow: hidden;
-  width: 100%;
-}
-.favorite-container {
-  position: relative;
-}
-.favorite-container:hover .faves-btn,
-.favorite-container:focus .faves-btn {
-  opacity: 1;
-}
-.favorite-container .faves-btn {
-  z-index: 2;
-  opacity: 0.5;
-  position: absolute;
-  font-size: 1.8rem;
-  bottom: 0;
-  right: 0;
-  padding: 2px;
-  text-align: center;
-  color: var(--color-opacity-two);
-  text-shadow: var(--text-outline);
-  transition: all 0.4s ease-in-out;
-  cursor: pointer;
-}
-.faves-btn span {
-  font-size: 0.75rem;
-}
-.drink-description {
-  text-align: center;
-}
-.favorite-container .faves-btn i {
-  font-size: inherit;
-}
-.favorite-container .faves-btn.favorite,
-.favorite-container .faves-btn:hover {
-  color: var(--text-outline-color-two);
-  text-shadow: var(--text-outline);
-}
-.tags {
-  display: flex;
-  flex-flow: wrap row;
-  gap: 0.6rem;
-  line-height: 1rem;
-  justify-content: space-around;
-  cursor: default;
-}
-.tags .card-tag {
-  text-align: center;
-  max-width: fit-content;
-  background-color: var(--color-four);
-  color: var(--color-one);
-  text-shadow: var(--text-outline);
-  padding: 0.2rem 0.6rem;
-  border-radius: 50px;
-  border: 1px solid var(--color-two);
-  box-shadow: var(--shadow-one);
-  font-size: 0.9rem;
-  letter-spacing: 0.08rem;
 }
 
 .card-container.table {
@@ -167,7 +237,7 @@
   gap: 32px;
 }
 .card-container.table .card {
-  border: 1px solid var(--color-two);
+  border: 1px solid rgb(74, 40, 25);
   border-radius: 2px;
   display: flex;
   flex-flow: row wrap;
@@ -178,7 +248,6 @@
   overflow: hidden;
   padding-bottom: 50px;
 }
-
 .card-container.table .card .img-container {
   max-width: 700px;
   min-width: 280px;
@@ -187,16 +256,14 @@
 .card-container.table .card h2 {
   position: absolute;
   bottom: 0;
-  border-top: 2px solid var(--color-four);
+  border-top: 2px solid rgb(167, 106, 50);
 }
 .card-container.table .card .card-text {
   flex: 1;
-}
-.card-container .card .img-container img {
-  padding: 1px;
+  margin: auto;
+  line-height: 2rem;
   width: 100%;
-  box-shadow: var(--shadow-three);
-  border: 1px solid var(--color-two);
+  gap: 32px;
 }
 
 @media (min-width: 1024px) {
@@ -206,9 +273,23 @@
   .card:hover .img-container img {
     transform: scale(1.08);
   }
+  #featured.table .card.next {
+    transform: translate(450px, 20px) scale(0.5);
+  }
+  #featured.table .card.previous {
+    transform: translate(-450px, 20px) scale(0.5);
+  }
 }
 @media (max-width: 1023px) {
   .card-container {
     padding: 2px;
   }
 }
+@media (max-width: 520px) {
+  #featured.table {
+    height: 920px;
+  }
+  .card-container.table .card {
+    flex-direction: column;
+  }
+}/*# sourceMappingURL=cards.css.map */

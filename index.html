@@ -42,16 +42,20 @@
           <li><a href="../#favorites">Favorites</a></li>
           <li class="horizontal-dt gap-6">
             <p class="special-heading color-one">Search</p>
-            <div class="search-bar">
+            <div class="search-bar" id="search-bar-drinks">
               <input
                 type="text"
                 name="search-bar"
                 class="search-bar-input"
-                id="search-bar"
-                data-keysearch="#results-container"
-              /><i
-                class="fa-solid fa-magnifying-glass search-btn"
-                data-activate="search-bar"
+                data-key-search="#results-container"
+              />
+              <i
+                class="fa-solid fa-magnifying-glass"
+                data-click-search="#results-container"
+              ></i>
+              <i
+                class="fa-solid fa-magnifying-glass"
+                data-activate="search-bar-drinks"
               ></i>
             </div>
           </li>
@@ -68,7 +72,7 @@
                 <div class="inline-flex space-between">
                   <h4>Hide Alcoholic Drinks</h4>
                   <i
-                    data-toggleBtn="isSober"
+                    data-toggle-btn="isSober"
                     class="fa-solid fa-toggle-off"
                   ></i>
                 </div>
@@ -76,7 +80,7 @@
                 <div class="inline-flex space-between">
                   <h4>Search by Name / Ingredient</h4>
                   <i
-                    data-toggleBtn="filterByIngredient"
+                    data-toggle-btn="filterByIngredient"
                     class="fa-solid fa-toggle-off"
                   >
                   </i>
@@ -86,7 +90,7 @@
                 <div class="inline-flex space-between">
                   <h4>A-Z Alphabetical</h4>
                   <i
-                    data-toggleBtn="sortReverse"
+                    data-toggle-btn="sortReverse"
                     class="fa-solid fa-toggle-off"
                   >
                   </i>
@@ -100,7 +104,7 @@
                     Grid View <i class="fa-solid fa-table-cells-large"></i>
                   </h4>
                   <i
-                    data-toggleBtn="displayTable"
+                    data-toggle-btn="displayTable"
                     class="fa-solid fa-toggle-off"
                   >
                   </i>
@@ -126,8 +130,22 @@
     </header>
     <!--Hero-->
     <main>
-      <section class="hero-section">
-        <h1 class="hero-text"></h1>
+      <section class="hero-section" id="hero-section">
+        <div class="container bg-opacity">
+          <h1 class="hero-text special-heading">Featured Drinks</h1>
+          <div
+            id="featured"
+            class="container slideshow-container card-container grid"
+          ></div>
+          <div class="slideshow-btns container">
+            <i data-change-slide="prev" class="fa-solid fa-chevron-left"></i>
+            <i
+              data-toggle-btn="forcePauseSlideshow"
+              class="fa-solid fa-pause"
+            ></i>
+            <i data-change-slide="next" class="fa-solid fa-chevron-right"></i>
+          </div>
+        </div>
       </section>
       <!--Drinks-->
       <section id="drinks-section">
@@ -137,12 +155,21 @@
             View the vast collection of available drink recipes for beverage
             connoisseurs.
           </p>
-          <div class="no-results hidden">
-            <h4>
-              No results found for "<span class="no-results-text"></span>".
-            </h4>
-          </div>
+          <div class="hidden" id="no-results"></div>
           <div class="card-container grid" id="results-container"></div>
+          <div class="container full-width">
+            <div
+              class="text-center clickable hidden"
+              id="show-more"
+              data-show-more="results-container"
+            >
+              Show more results
+            </div>
+          </div>
+          <div
+            class="container stats-container column-flex gap-6"
+            id="stats-container"
+          ></div>
         </div>
       </section>
       <!--About-->
@@ -180,10 +207,6 @@
         </div>
       </div>
     </footer>
-    <script src="./scripts/global-vars.js"></script>
-    <script src="./scripts/classes/drinks.js"></script>
-    <script src="./scripts/classes/ingredients.js"></script>
-    <script src="./scripts/search.js"></script>
-    <script src="./scripts/index.js"></script>
+    <script src="./scripts/index.js" type="module"></script>
   </body>
 </html>
