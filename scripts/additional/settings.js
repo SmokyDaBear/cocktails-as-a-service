@@ -1,5 +1,5 @@
 import { slideshowLoop } from "./slideshow.js";
-import { sortDrinks } from "./additional.js";
+import { buildPage, sortDrinks } from "./additional.js";
 const favoriteDrinksKey = "favorite-drinks";
 
 /**
@@ -11,7 +11,6 @@ const favoriteDrinksKey = "favorite-drinks";
 const getStoredFavorites = () => {
   const favorites = new Set();
   let storedFaves = localStorage.getItem(favoriteDrinksKey);
-  console.log(storedFaves);
   if (storedFaves == null) return favorites;
   try {
     storedFaves = JSON.parse(storedFaves);
@@ -24,7 +23,10 @@ const getStoredFavorites = () => {
     }
     console.log("User favorites retrieved: ", favorites);
   } catch (err) {
-    console.log(err.message || err);
+    console.log(
+      "Favorites from local storage invalid, removing data.",
+      err.message || err
+    );
     localStorage.removeItem(favoriteDrinksKey);
   }
 
@@ -51,7 +53,7 @@ const savePreference = (localName, value) => {
 const getSavedPreference = (key, val) => {
   const localSetting = localStorage.getItem(key);
   if (localSetting == null) return val;
-  const savedVal = JSON.parse(localSetting);
+  const savedVal = JSON.parse(localSetting) || val;
   return savedVal;
 };
 
@@ -71,7 +73,6 @@ const toggleDisplayMethod = (config) => {
  */
 const updateSettings = (setting, config) => {
   updateBtn(setting, config);
-  console.log(setting);
   let { forcePauseSlideshow } = config.settings;
   if (setting == "displayTable") {
     toggleDisplayMethod(config);
@@ -80,7 +81,7 @@ const updateSettings = (setting, config) => {
     sortDrinks(config);
   }
   if (setting == "isSober") {
-    console.log("Ahh sober... Lame lol");
+    buildPage(config);
   }
   if (setting == "forcePauseSlideshow" && !forcePauseSlideshow) {
     console.log("Starting slideshow back up...");
@@ -114,7 +115,7 @@ const updateBtn = (key, config) => {
     "displayTable",
     "forcePauseSlideshow",
   ];
-  let isPlayBtn = String(key) == "forcePauseSlideshow" ? true : false;
+  let isPlayBtn = String(key) == "forcePauseSlideshow";
   if (toggleSwitches.includes(String(key))) {
     const { toggleOff, toggleOn, pauseBtn, playBtn } = config.elmClasses;
     const [on, off] = isPlayBtn ? [playBtn, pauseBtn] : [toggleOn, toggleOff];
@@ -129,9 +130,10 @@ const updateBtn = (key, config) => {
 };
 
 /**
- * Default settings
+ * Settings that can be retrieved from and saved to local storage
+ * @type {Object}
  */
-const settings = {
+const settingsDefaults = {
   isSober: false,
   filterByIngredient: false,
   sortReverse: false,
@@ -145,19 +147,11 @@ const settings = {
  */
 export const getSettings = (config) => {
   const keysWithChanges = [];
-  const staticSettings = {
-    pauseSlideshow: false,
-    forcePauseSlideshow: false,
-    numDrinksPerPage: 10,
-    delayTime: 4000,
-    currentSlide: 0,
-  };
-  for (let [key, val] of Object.entries(settings)) {
-    staticSettings[key] = getSavedPreference(key, val);
-    if (staticSettings[key] === true) keysWithChanges.push(key);
+  for (let [key, val] of Object.entries(settingsDefaults)) {
+    config.settings[key] = getSavedPreference(key, val);
+    if (config.settings[key] === true) keysWithChanges.push(key);
   }
-  staticSettings.favorites = getStoredFavorites();
-  config.settings = staticSettings;
+  config.settings.favorites = getStoredFavorites();
   if (keysWithChanges.length > 0) {
     for (let key of keysWithChanges) {
       updateSettings(key, config);

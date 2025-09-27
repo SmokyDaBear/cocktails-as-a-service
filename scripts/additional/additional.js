@@ -1,6 +1,4 @@
-import { Drink } from "../classes/drinks.js";
-import { Ingredient } from "../classes/ingredients.js";
-import { fetchData, searchMethods } from "./search.js";
+import { fetchData, getStats, printStats, searchMethods } from "./search.js";
 import { slideshowLoop } from "./slideshow.js";
 const favoriteDrinksKey = "favorite-drinks";
 
@@ -13,8 +11,9 @@ export const formatSimple = (text) => String(text).toLowerCase().trim();
 
 /**
  *
- * @param {*} parentElm - the containing element to have its children sorted
- * sorts the drinks by name, also removes duplicates
+ * @param {*} config - the config object
+ * sorts the drinks in the drinks and favorites containers alphabetically
+ * removes duplicates
  */
 export const sortDrinks = (config) => {
   const getNameCB = config.getDataset.drinkName;
@@ -49,7 +48,22 @@ export const createModal = async (id, config) => {
   const { favorites } = config.settings;
   const modalContainer = config.elementContainers.modal;
   const isFavorite = favorites.has(parseInt(id)) || false;
-  return fetchData(searchMethods.id(id)).then((drink) => {
+  const url = searchMethods.id(id, config);
+  return fetchData(url, config).then((drink) => {
+    modalContainer.innerHTML = drink[0].createModalCard(isFavorite);
+    modalContainer.classList.add(activeClass);
+  });
+};
+
+/**
+ *
+ * @param {*} config -config object
+ * creates a modal with a random drink
+ */
+export const createRandomModal = async (config) => {
+  const modalContainer = config.elementContainers.modal;
+  return fetchData(searchMethods.random(), config).then((drink) => {
+    const isFavorite = config.settings.favorites.has(drink[0].id) || false;
     modalContainer.innerHTML = drink[0].createModalCard(isFavorite);
     modalContainer.classList.add(activeClass);
   });
@@ -65,16 +79,14 @@ export const getFavorites = async (config) => {
       if (!Number.isInteger(fave)) {
         throw new Error("Invalid id for fetch request: ", id);
       }
-      fetchData(searchMethods.id(id)).then((data) => {
+      fetchData(searchMethods.id(id, config), config).then((data) => {
+        console.log("Successfully retrieved favorite: ", data[0].name);
         config.elementContainers.favorites.innerHTML +=
           data[0].createFullCard(true);
       });
     } catch (err) {
-      console.log(
-        "Error retrieving from database id: ",
-        id,
-        " error - ",
-        err.message || err
+      throw new Error(
+        `Error retrieving from database id: ${id}, ${err.message || err}`
       );
     }
   }
@@ -118,7 +130,16 @@ export const toggleFavorite = ([idStr, btn], config) => {
       }
     });
   }
-
+  getStats(config.elementContainers.drinks).then((stats) =>
+    printStats(stats, config.elementContainers.stats)
+  );
+  if (config.elementContainers.favorites.children.length > 0) {
+    getStats(config.elementContainers.favorites).then((faveStats) =>
+      printStats(faveStats, config.elementContainers.statsFavorites)
+    );
+  } else {
+    config.elementContainers.statsFavorites.innerHTML = "No favorites";
+  }
   localStorage.setItem(favoriteDrinksKey, [...config.settings.favorites]);
 };
 export const addActive = (id) => {
@@ -155,7 +176,7 @@ const getFeaturedDrinks = async (config) => {
   config.elementContainers.featured.innerHTML = "";
   await Promise.allSettled(
     ids.map(async (id) =>
-      fetchData(searchMethods.id(id)).then((data) => {
+      fetchData(searchMethods.id(id, config), config).then((data) => {
         config.elementContainers.featured.innerHTML += data[0].createFullCard();
       })
     )
@@ -168,20 +189,40 @@ const getFeaturedDrinks = async (config) => {
 const getRandomSelection = async (config) => {
   const promises = [];
   if (config.settings.isSober) {
-    promises.push(fetchData(searchMethods.soberDrinks()));
+    if (config.drinkCache.soberIds.size > config.settings.numDrinksPerPage) {
+      for (let id of config.drinkCache.soberIds) {
+        promises.push(fetchData(searchMethods.id(id, config), config));
+        if (promises.length >= config.settings.numDrinksPerPage) break;
+      }
+    } else {
+      promises.push(fetchData(searchMethods.soberDrinks(), config));
+    }
     return promises;
   }
 
   let numSoFar = 0;
   while (numSoFar <= config.settings.numDrinksPerPage) {
-    promises.push(fetchData(searchMethods.random()));
-    numSoFar += 2;
+    if (config.drinkCache.byId.size >= config.settings.numDrinksPerPage) {
+      promises.push(
+        fetchData(
+          searchMethods.id(
+            [...config.drinkCache.byId.keys()][numSoFar],
+            config
+          ),
+          config
+        )
+      );
+      numSoFar++;
+      continue;
+    }
+    promises.push(fetchData(searchMethods.random(), config));
+    numSoFar++;
   }
   return promises;
 };
 
 const updateDrinks = async (promises, config) => {
-  Promise.allSettled(promises).then((data) => {
+  return Promise.allSettled(promises).then((data) => {
     data.forEach((promise) => {
       const drinks = promise.value;
       drinks.forEach((drink) => {
@@ -208,11 +249,33 @@ export const buildPage = async (config) => {
   getFeaturedDrinks(config).catch((err) =>
     console.log("Error fetching featured Drinks: ", err.message || err)
   );
+
   getFavorites(config).catch((err) =>
     console.log("Error fetching favorites : ", err.message || err)
   );
+
   getRandomSelection(config)
     .then((promises) => updateDrinks(promises, config))
+    .then(() => sortDrinks(config))
+    .then(() => {
+      if (config.elementContainers.drinks.children.length === 0) {
+        alert("No drinks found, server may be down. Try again later.");
+        config.elementContainers.noResults.innerText =
+          "No drinks found, server may be down. Try again later.";
+      } else {
+        console.log("Drinks loaded successfully");
+        getStats(config.elementContainers.drinks).then((stats) => {
+          printStats(stats, config.elementContainers.stats);
+        });
+        if (config.elementContainers.favorites.children.length > 0) {
+          getStats(config.elementContainers.favorites).then((faveStats) =>
+            printStats(faveStats, config.elementContainers.statsFavorites)
+          );
+        } else {
+          config.elementContainers.statsFavorites.innerHTML = "No favorites";
+        }
+      }
+    })
     .catch((err) =>
       console.log("Error retrieving drinks selection", err.message || err)
     );

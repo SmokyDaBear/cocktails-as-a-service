@@ -211,7 +211,7 @@ export class Drink {
     const tags = this.generateTags(true);
     let isFavorite = isFave ? " favorite" : "";
 
-    return `<div class="drink-card card" data-drink-id="${id}"  data-drink-name="${name} data-is-alchoholic="${this.isAlcoholic}"
+    return `<div class="drink-card card" data-drink-id="${id}"  data-drink-name="${name}" data-is-alcoholic="${this.isAlcoholic}"
     data-ingredients="${this.strIngredients}" data-category="${this.category}">
               <div class="img-container favorite-container">
               <div class="faves-btn ${isFavorite} column-flex">

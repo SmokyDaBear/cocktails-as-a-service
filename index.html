@@ -36,10 +36,10 @@
           <img src="./assets/caas-logo-notext.png" alt="" />
         </div>
         <ul class="unstyled-list nav-list" id="nav-list">
-          <li><a href="../">Home</a></li>
-          <li><a href="../#drinks-section">Drinks</a></li>
-          <li><a href="../#about">About</a></li>
-          <li><a href="../#favorites">Favorites</a></li>
+          <li><a href="#hero-section">Home</a></li>
+          <li><a href="#drinks-section">Drinks</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#favorites">Favorites</a></li>
           <li class="horizontal-dt gap-6">
             <p class="special-heading color-one">Search</p>
             <div class="search-bar" id="search-bar-drinks">
@@ -114,7 +114,8 @@
                 <!--find a random drink-->
                 <div class="inline-flex space-between">
                   <h4>Random Drink</h4>
-                  <i class="fa-solid fa-shuffle" data-search="random"> </i>
+                  <i class="fa-solid fa-shuffle" data-random-modal="random">
+                  </i>
                 </div>
               </div>
             </div>
@@ -123,7 +124,7 @@
         <i
           class="fa-solid fa-bars menu-btn"
           id="menu-btn"
-          data-activate="nav-list"
+          data-activate="nav-list settings-list"
         ></i>
         <i data-deactivate="nav-list" class="fa-solid fa-x menu-btn"></i>
       </nav>
@@ -162,10 +163,19 @@
               class="text-center clickable hidden"
               id="show-more"
               data-show-more="results-container"
-            >
-              Show more results
-            </div>
+            ></div>
           </div>
+          <p
+            class="text-center color-one clickable"
+            data-activate="stats-container stats-btn"
+          >
+            Show Stats
+            <i
+              class="fa-solid fa-chevron-up flip-on-active"
+              id="stats-btn"
+              data-activate="stats-container stats-btn"
+            ></i>
+          </p>
           <div
             class="container stats-container column-flex gap-6"
             id="stats-container"
@@ -194,19 +204,51 @@
         </p>
         <br />
         <div id="favorites" class="container card-container grid"></div>
+        <p
+          class="text-center clickable-alt"
+          data-activate="stats-favorites-container fave-stats-btn"
+        >
+          Show Stats
+          <i
+            id="fave-stats-btn"
+            class="fa-solid fa-chevron-up flip-on-active"
+            data-activate="stats-favorites-container fave-stats-btn"
+          ></i>
+        </p>
+        <div
+          id="stats-favorites-container"
+          class="container stats-container column-flex gap-6"
+        ></div>
       </section>
       <!--Modal Container-->
       <section id="modal-container" class="modal-container active"></section>
     </main>
     <footer>
-      <div class="container horizontal-dt" id="footer-container">
-        <div class="column-flex">
-          <div class="logo-container">
-            <img src="./assets/caas-logo.png" alt="logo" />
-          </div>
+      <div
+        class="container column-flex gap-mid align-center"
+        id="footer-container"
+      >
+        <div class="logo-container">
+          <img src="./assets/caas-logo.png" alt="logo" />
         </div>
+        <div class="flex-overflow justify-around gap-mid">
+          <a href="https://smokydabear.github.io/" class="page-link"
+            ><i class="fa-solid fa-up-right-from-square"></i> See more sites</a
+          >
+          <a
+            href="https://github.com/SmokyDaBear/cocktails-as-a-service/tree/origin"
+            class="page-link"
+            ><i class="fa-brands fa-github"></i> View Page Code</a
+          >
+          <a href="https://www.thecocktaildb.com/api.php" class="page-link"
+            ><i class="fa-solid fa-up-right-from-square"></i> Cocktails Database
+            API</a
+          >
+        </div>
+        <p class="text-center color-one">&copy Verdant Webworks 2025</p>
       </div>
     </footer>
+    <script src="./scripts/additional/nav.js"></script>
     <script src="./scripts/index.js" type="module"></script>
   </body>
 </html>

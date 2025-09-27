@@ -215,8 +215,9 @@
 .card-container.table {
   display: flex;
   flex-flow: column;
-  gap: 32px;
+  gap: 64px;
   & .card {
+    height: fit-content;
     border: 1px solid $color-two;
     border-radius: 2px;
     display: flex;
@@ -224,26 +225,34 @@
     justify-content: center;
     align-items: center;
     padding: 0;
-    border-radius: 8px;
+    border-radius: 8px 8px  0 0;
     overflow: hidden;
-    padding-bottom: 50px;
+    overflow: visible ;
     & .img-container {
       max-width: 700px;
       min-width: 280px;
       flex: 1;
+      border-radius: 8px 8px 0 0;
     }
     & h2 {
+      width: 100%;
       position: absolute;
-      bottom: 0;
-      border-top: 2px solid $color-four;
+      top: 100%;
+      border: 2px solid $color-four;
+      border-radius: 0 0 8px 8px;
+      z-index: 100;
     }
     & .card-text {
+      position: relative;
       flex: 1;
       margin: auto;
       line-height: 2rem;
       width: 100%;
       gap: 32px;
     }
+  }
+  & ~ p{
+    margin-top: 100px;
   }
 }
 @media (min-width: 1024px) {

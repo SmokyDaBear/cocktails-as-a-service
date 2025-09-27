@@ -45,7 +45,7 @@ body {
 
 .drink-modal {
   position: relative;
-  border-radius: 24px;
+  border-radius: 16px;
   margin: 24px auto;
   display: flex;
   flex-direction: column;
@@ -60,8 +60,8 @@ body {
   flex: 1;
 }
 .drink-modal .img-container img {
-  border-radius: 24px;
-  border: 1px solid rgb(74, 40, 25);
+  border-radius: 8px;
+  border: 3px outset rgb(239, 164, 50);
   box-shadow: 5px 5px 16px rgba(71, 71, 71, 0.514);
 }
 .drink-modal .modal-text {
