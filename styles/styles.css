@@ -156,6 +156,11 @@ i + span {
   padding: 8px;
   z-index: 100;
 }
+@media (max-width: 1023px) {
+  #nav-bar {
+    background-color: rgba(32, 32, 29, 0.863);
+  }
+}
 
 #nav-bar .nav-list {
   display: flex;

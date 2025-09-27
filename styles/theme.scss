@@ -22,10 +22,7 @@
   $color-highlight: rgb(255, 181, 71);
   $navbar-height: 60px;
   $border-one: 2px solid $color-three;
-
-  @media (max-width: 1023){
-   $color-opacity: rgba(32, 32, 29, 0.863);
-  }
+  $color-navbar-mobile: rgba(32, 32, 29, 0.863);
 body {
   background-color: $color-one;
   color: $color-two;

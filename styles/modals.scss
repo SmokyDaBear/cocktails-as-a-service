@@ -10,6 +10,9 @@
   opacity: 0;
   transition: all 0.4s ease-in;
   transform: scale(0.1) translateY(-100%);
+  @media(max-width: 1023px){
+    background-color: $color-navbar-mobile;
+  }
 }
 .active.modal-container .full-site-modal {
   visibility: visible;
@@ -32,6 +35,15 @@
   background-color: $color-one;
   color: $color-two;
   padding: 48px 24px;
+  & .img-container {
+  margin: auto;
+  flex: 1;
+  & img {
+    border-radius: 24px;
+    border: 1px solid $color-two;
+    box-shadow: $shadow-one;
+  }
+}
   & .modal-text {
     padding: 1rem;
     max-width: 800px;
@@ -40,6 +52,15 @@
     justify-content: center;
     gap: 32px;
     text-align: center;
+  }
+  @media (max-width: 1023px){
+  border-radius: 0;
+  & .modal-text{
+    padding: 0.2rem;
+    }
+  & .img-container img{
+    border-radius: 2px;
+    }
   }
 }
 .modal-text ol.drink-description {
@@ -51,16 +72,14 @@
   border: inset 3px $color-three;
   border-radius: 4px;
   color: $color-one;
-}
-.drink-modal .img-container {
-  margin: auto;
-  flex: 1;
-  & img {
-    border-radius: 24px;
-    border: 1px solid $color-two;
-    box-shadow: $shadow-one;
+  & li{
+    padding: 0.3rem;
+  }
+  @media(max-width: 1023px){
+    padding: 0.4rem;
   }
 }
+
 .drink-modal .favorite-container button i {
   font-size: 2.2rem;
 }

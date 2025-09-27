@@ -120,6 +120,9 @@ i + span {
   width: 100%;
   padding: 8px;
   z-index: 100;
+  @media (max-width: 1023px){
+    background-color: $color-navbar-mobile;
+  }
 }
 #nav-bar .nav-list {
   display: flex;
