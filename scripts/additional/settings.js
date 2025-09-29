@@ -21,7 +21,6 @@ const getStoredFavorites = () => {
         favorites.add(parseInt(fave));
       }
     }
-    console.log("User favorites retrieved: ", favorites);
   } catch (err) {
     console.log(
       "Favorites from local storage invalid, removing data.",
@@ -71,12 +70,13 @@ const toggleDisplayMethod = (config) => {
  * @param {*} setting to be changed
  * updates settings
  */
-const updateSettings = (setting, config) => {
+const updateSettings = (setting, config, isInitialLoad = false) => {
   updateBtn(setting, config);
   let { forcePauseSlideshow } = config.settings;
   if (setting == "displayTable") {
     toggleDisplayMethod(config);
   }
+  if (isInitialLoad) return;
   if (setting == "sortReverse") {
     sortDrinks(config);
   }
@@ -130,22 +130,11 @@ const updateBtn = (key, config) => {
 };
 
 /**
- * Settings that can be retrieved from and saved to local storage
- * @type {Object}
- */
-const settingsDefaults = {
-  isSober: false,
-  filterByIngredient: false,
-  sortReverse: false,
-  displayTable: false,
-};
-
-/**
  *
  *
  * @returns settings retrieved from local storage
  */
-export const getSettings = (config) => {
+export const getSettings = (config, settingsDefaults) => {
   const keysWithChanges = [];
   for (let [key, val] of Object.entries(settingsDefaults)) {
     config.settings[key] = getSavedPreference(key, val);
@@ -154,7 +143,7 @@ export const getSettings = (config) => {
   config.settings.favorites = getStoredFavorites();
   if (keysWithChanges.length > 0) {
     for (let key of keysWithChanges) {
-      updateSettings(key, config);
+      updateSettings(key, config, true);
     }
   }
 };

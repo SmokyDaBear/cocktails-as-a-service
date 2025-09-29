@@ -28,10 +28,22 @@ main {
 }
 
 /**Elements*/
+i:hover,
+a:hover,
+i:focus,
+a:focus {
+  color: rgb(255, 181, 71);
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
 a {
   color: inherit;
   text-decoration: none;
   transition: all 0.4s;
+}
+a:hover {
+  text-decoration: underline;
 }
 
 a.page-link {
@@ -43,7 +55,7 @@ a.page-link {
 a.page-link:hover {
   color: rgb(254, 240, 219);
   background-color: rgb(239, 164, 50);
-  box-shadow: 5px 5px 16px rgba(236, 226, 217, 0.178);
+  box-shadow: 5px 5px 16px rgba(236, 226, 217, 0.322);
 }
 
 p {
@@ -53,18 +65,21 @@ p {
 i {
   transition: all 0.4s;
 }
-
 i + span {
   margin-left: 8px;
   visibility: hidden;
   opacity: 0;
   transition: all 0.6s;
-  background-color: rgba(71, 71, 71, 0.514);
+  background-color: rgba(17, 17, 17, 0.664);
   color: rgb(253, 244, 228);
   padding: 4px;
   border-radius: 4px;
   font-variant: small-caps;
   letter-spacing: -0.01rem;
+}
+i:hover + span {
+  visibility: visible;
+  opacity: 1;
 }
 
 .pill-btn {
@@ -80,15 +95,16 @@ i + span {
   border: 1px solid rgb(74, 40, 25);
   padding: 0.4rem 1rem;
   border-radius: 30px;
-  box-shadow: 5px 5px 16px rgba(236, 226, 217, 0.178);
+  box-shadow: 5px 5px 16px rgba(236, 226, 217, 0.322);
 }
 .pill-btn:hover {
+  cursor: pointer;
   transform: scale(1.1);
   background-color: rgb(254, 240, 219);
   border-color: rgb(74, 40, 25);
   color: rgb(74, 40, 25);
   text-shadow: none;
-  box-shadow: 5px 5px 16px rgba(71, 71, 71, 0.514);
+  box-shadow: 5px 5px 16px rgba(17, 17, 17, 0.664);
 }
 
 .flip-on-active {
@@ -139,9 +155,10 @@ i + span {
   font-size: 1.5rem;
 }
 
-.btn:hover {
+.btn:hover,
+.btn-two:hover {
   transform: scale(1.03);
-  box-shadow: 5px 5px 16px rgba(71, 71, 71, 0.514);
+  box-shadow: 5px 5px 16px rgba(17, 17, 17, 0.664);
 }
 
 .btn-two {
@@ -155,11 +172,6 @@ i + span {
   border-radius: 24px;
   cursor: pointer;
   transition: all 0.4s ease-in-out;
-}
-
-.btn-two:hover {
-  transform: scale(1.03);
-  box-shadow: 5px 5px 16px rgba(71, 71, 71, 0.514);
 }
 
 .unstyled-list {
@@ -179,7 +191,7 @@ i + span {
 
 #nav-bar {
   height: 60px;
-  background-color: rgba(71, 71, 71, 0.514);
+  background-color: rgba(17, 17, 17, 0.664);
   position: fixed;
   display: flex;
   align-items: center;
@@ -218,12 +230,29 @@ i + span {
   font-size: 1.3rem;
   font-weight: bold;
   color: rgb(253, 244, 228);
-  text-shadow: 5px 5px 16px rgba(71, 71, 71, 0.514);
+  text-shadow: 5px 5px 16px rgba(17, 17, 17, 0.664);
 }
 
 #menu-btn {
   font-size: 1.6rem;
   color: rgb(74, 40, 25);
+}
+@media (min-width: 1024px) {
+  #menu-btn {
+    display: none;
+  }
+}
+@media (max-width: 1023px) {
+  #menu-btn {
+    display: block;
+  }
+}
+
+.menu-btn.fa-x {
+  z-index: -1;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s ease-in-out;
 }
 
 /**images*/
@@ -231,6 +260,12 @@ i + span {
   width: 120px;
   height: 120px;
   overflow: hidden;
+}
+@media (min-width: 1023px) {
+  .logo-container {
+    width: 180px;
+    height: 180px;
+  }
 }
 
 .logo-container.small {
@@ -257,43 +292,41 @@ i + span {
   text-align: center;
   z-index: -1;
   transition: all 0.4s;
-  min-width: 240px;
-  width: -moz-fit-content;
-  width: fit-content;
-  padding: 8px;
-  background-color: rgb(74, 40, 25);
-  color: rgb(253, 244, 228);
-  border: 1px solid rgb(74, 40, 25);
-  border-radius: 10px;
-  position: relative;
-  top: 150%;
-  right: 2px;
+  position: absolute;
   display: flex;
   flex-direction: column;
   opacity: 0;
-  transform: translateX(100%);
   overflow: auto;
+  top: 200%;
+  transform: translate(50%, -50%) scale(0.1);
+  background-color: rgb(254, 240, 219);
+  color: rgb(74, 40, 25);
+  border: 1px solid rgb(167, 106, 50);
+  border-radius: 10px;
 }
-
 .dropdown-list h3 {
   font-size: 1.3rem;
   border-bottom: 2px solid rgb(239, 164, 50);
   padding-bottom: 4px;
 }
-
 .dropdown-list h4 {
   font-size: 1.1rem;
   font-weight: lighter;
 }
-
 .dropdown-list i {
+  color: rgb(239, 164, 50);
+  text-shadow: -1px -1px 0 rgb(92, 62, 24), 1px -1px 0 rgb(92, 62, 24), -1px 1px 0 rgb(92, 62, 24), 1px 1px 0 rgb(92, 62, 24);
   font-size: 1.5rem;
 }
-
 .dropdown-list.active {
   z-index: 1000;
   transform: none;
   opacity: 1;
+}
+@media (max-width: 600px) {
+  .dropdown-list {
+    right: -10px;
+  }
 }
 
 /**text*/
@@ -329,7 +362,7 @@ h4 {
   letter-spacing: 0.1rem;
   font-size: 1.3rem;
   text-align: center;
-  text-shadow: 5px 5px 16px rgba(71, 71, 71, 0.514);
+  text-shadow: 5px 5px 16px rgba(17, 17, 17, 0.664);
 }
 
 .text-center {
@@ -370,7 +403,7 @@ h4 {
 }
 
 .bg-opacity {
-  background-color: rgba(71, 71, 71, 0.514);
+  background-color: rgba(17, 17, 17, 0.664);
   color: rgb(253, 244, 228);
 }
 
@@ -379,6 +412,13 @@ h4 {
 }
 .container.full-width {
   width: 100%;
+}
+@media (max-width: 1023px) {
+  .container.sticky-header {
+    position: sticky;
+    top: 60px;
+    z-index: 10;
+  }
 }
 
 .relative-anchor {
@@ -390,6 +430,11 @@ h4 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+@media (min-width: 1024px) {
+  .horizontal-dt {
+    flex-direction: row;
+  }
 }
 
 .column-flex {
@@ -478,7 +523,8 @@ h4 {
 @media (max-width: 1024px) {
   .search-bar input {
     visibility: visible;
-    width: 250px;
+    width: -moz-max-content;
+    width: max-content;
     opacity: 1;
   }
   .search-bar .fa-magnifying-glass[data-activate] {
@@ -492,7 +538,7 @@ h4 {
 }
 .search-bar.active input {
   visibility: visible;
-  width: 250px;
+  width: 300px;
   opacity: 1;
 }
 .search-bar.active .fa-magnifying-glass[data-activate] {
@@ -502,13 +548,6 @@ h4 {
 .search-bar.active .fa-magnifying-glass[data-click-search] {
   visibility: visible;
   opacity: 1;
-}
-
-.menu-btn.fa-x {
-  z-index: -1;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.5s ease-in-out;
 }
 
 /**specific selectors*/
@@ -526,7 +565,7 @@ body {
   color: rgb(254, 240, 219);
 }
 
-section#favorites {
+#favorites {
   background-color: rgb(254, 240, 219);
   color: rgb(74, 40, 25);
 }
@@ -539,7 +578,6 @@ section#favorites {
   background-color: rgb(74, 40, 25);
   color: rgb(254, 240, 219);
 }
-
 #footer-container .logo-container {
   border-radius: 8px;
   border: 2px solid rgb(239, 164, 50);
@@ -551,15 +589,12 @@ section#favorites {
   background-color: rgb(254, 240, 219);
   color: rgb(74, 40, 25);
   transition: all 0.4s ease-out;
-  visibility: collapse;
+  display: none;
   opacity: 0;
-  height: 0;
 }
 .stats-container.active {
-  visibility: visible;
+  display: block;
   opacity: 1;
-  height: -moz-fit-content;
-  height: fit-content;
 }
 .stats-container table {
   gap: 0.2rem;
@@ -567,7 +602,7 @@ section#favorites {
   margin: 0 auto;
   max-width: 600px;
   border-radius: 0.5rem;
-  box-shadow: 5px 5px 16px rgba(71, 71, 71, 0.514);
+  box-shadow: 5px 5px 16px rgba(17, 17, 17, 0.664);
 }
 .stats-container th, .stats-container td {
   padding: 0.4rem 1rem;

@@ -18,8 +18,10 @@ import {
 } from "./additional/search.js";
 
 import { getSettings, toggleSetting } from "./additional/settings.js";
+import { buildPageSearches } from "./additional/build.js";
+import { Drink } from "./classes/drinks.js";
 
-//URL for the db, as well as simple functions for different search methods:
+//URL for the db
 const dbURL = "https://www.thecocktaildb.com/api/json/v1/1/";
 
 //For reference
@@ -46,7 +48,6 @@ const config = {
   },
   elementContainers: {
     drinks: document.getElementById("results-container"),
-    noResults: document.getElementById("no-results"),
     stats: document.getElementById("stats-container"),
     favorites: document.getElementById("favorites"),
     statsFavorites: document.getElementById("stats-favorites-container"),
@@ -85,9 +86,25 @@ const config = {
     currentSlide: 0,
   },
 };
+//Build search bars and filter options if needed
+buildPageSearches();
+/**
+ * Settings that can be retrieved from and saved to local storage
+ * @type {Object}
+ */
+const settingsDefaults = {
+  isSober: false,
+  filterByIngredient: false,
+  sortReverse: false,
+  displayTable: false,
+};
 
-getSettings(config);
+//Retrieve settings from localStorage, or set defaults
+getSettings(config, settingsDefaults);
 
+/**
+ * Event handlers for various clickable elements
+ */
 const eventHandler = {
   activate: (ids) => ids.split(" ").forEach((id) => addActive(id)),
   deactivate: (id) => removeActive(id),
@@ -141,10 +158,14 @@ config.elementContainers.hero.addEventListener("mouseleave", () => {
   config.settings.pauseSlideshow = false;
 });
 document.querySelectorAll(elmDatasets.searchBar).forEach((elm) => {
-  elm.addEventListener("keyup", (e) => searchEnter(e, config));
+  if (elm.dataset.keySearch == "#results-container") {
+    elm.addEventListener("keyup", (e) => searchEnter(e, config));
+  }
+
   elm.addEventListener("keyup", hideOnKeyup);
 });
 
 window.addEventListener("click", handleClickEvent);
 
+//Build page
 buildPage(config);

@@ -98,9 +98,13 @@ const updateStats = (node, statsObj) => {
 export const updateSearchResults = (searchText, container, config) => {
   let numVisible = 0;
   let numOver = 0;
+  const parent = container.parentElement;
   const { isSober } = config.settings;
-  const noResultsContainer = config.elementContainers.noResults;
-  const showMoreContainer = config.elementContainers.showMore;
+  const noResultsContainer = parent.querySelector(".no-results");
+  const statsContainer = parent.querySelector(".stats-container");
+  const showMoreContainer = parent.querySelector(".show-more");
+  if (noResultsContainer) noResultsContainer.innerText = "";
+  if (statsContainer) statsContainer.innerHTML = "";
   showMoreContainer.classList.add("hidden");
   noResultsContainer.classList.add("hidden");
   const numDrinksPerPage = config.settings.numDrinksPerPage;
@@ -134,7 +138,7 @@ export const updateSearchResults = (searchText, container, config) => {
   }
   if (numVisible == 0) {
     noResultsContainer.innerText = `No results found for "${searchText}".`;
-    config.elementContainers.noResults.classList.remove("hidden");
+    noResultsContainer.classList.remove("hidden");
   }
   if (numOver > 0) {
     showMoreContainer.innerText = `${numOver} results hidden. Show ${Math.min(
@@ -142,10 +146,8 @@ export const updateSearchResults = (searchText, container, config) => {
       numOver
     )} more results`;
     showMoreContainer.classList.remove("hidden");
-  } else {
-    showMoreContainer.classList.add("hidden");
   }
-  printStats(searchStats, config.elementContainers.stats);
+  printStats(searchStats, statsContainer);
 };
 
 export const getStats = async (container) => {
@@ -182,11 +184,11 @@ export const getStats = async (container) => {
   return searchStats;
 };
 export const showMoreResults = (parentId, config) => {
-  const showMoreContainer = config.elementContainers.showMore;
-  showMoreContainer.classList.add("hidden");
   const numDrinksPerPage = config.settings.numDrinksPerPage;
   const numDrinks = config.settings.numDrinksPerPage;
   const container = document.querySelector(`#${parentId}`);
+  const showMoreContainer = container.parentElement.querySelector(".show-more");
+  showMoreContainer.classList.add("hidden");
   let numShown = 0;
   let numOver = 0;
   for (const node of [...container.children]) {

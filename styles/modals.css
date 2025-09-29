@@ -20,7 +20,7 @@ body {
   top: 60px;
   width: 100vw;
   height: 100%;
-  background-color: rgba(71, 71, 71, 0.514);
+  background-color: rgba(17, 17, 17, 0.664);
   visibility: hidden;
   opacity: 0;
   transition: all 0.4s ease-in;
@@ -62,7 +62,7 @@ body {
 .drink-modal .img-container img {
   border-radius: 8px;
   border: 3px outset rgb(239, 164, 50);
-  box-shadow: 5px 5px 16px rgba(71, 71, 71, 0.514);
+  box-shadow: 5px 5px 16px rgba(17, 17, 17, 0.664);
 }
 .drink-modal .modal-text {
   padding: 1rem;
@@ -119,7 +119,7 @@ body {
   transition: all 0.4s ease-in;
 }
 .close-btn:hover {
-  text-shadow: 5px 5px 16px rgba(71, 71, 71, 0.514);
+  text-shadow: 5px 5px 16px rgba(17, 17, 17, 0.664);
   color: rgb(167, 106, 50);
   transform: scale(1.1);
 }

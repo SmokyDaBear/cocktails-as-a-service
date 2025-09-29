@@ -1,28 +1,26 @@
-  $color-one: rgb(254, 240, 219);
-  $color-two: rgb(74, 40, 25);
-  $color-three: rgb(239, 164, 50);
-  $color-four: rgb(167, 106, 50);
-  $color-favorite: rgb(233, 55, 55);
-  $color-vignette: radial-gradient($color-three, $color-four);
-  $color-opacity: rgba(71, 71, 71, 0.514);
-  $color-opacity-two: rgba(236, 226, 217, 0.178);
-  $color-opacity-text: rgb(253, 244, 228);
-  $shadow-one: 5px 5px 16px $color-opacity;
-  $shadow-two: 5px 5px 16px $color-opacity-two;
-  $shadow-three: 1px 2px 12px $color-opacity;
-  $text-outline-color: rgb(92, 62, 24);
-  $text-outline-color-two: rgb(230, 199, 100);
-  $text-outline: -1px -1px 0 $text-outline-color,
-    1px -1px 0 $text-outline-color, -1px 1px 0 $text-outline-color,
-    1px 1px 0 $text-outline-color;
-  $text-outline-two: -1px -1px 0 $text-outline-color-two,
-    1px -1px 0 $text-outline-color-two,
-    -1px 1px 0 $text-outline-color-two,
-    1px 1px 0 $text-outline-color-two;
-  $color-highlight: rgb(255, 181, 71);
-  $navbar-height: 60px;
-  $border-one: 2px solid $color-three;
-  $color-navbar-mobile: rgba(32, 32, 29, 0.863);
+$color-one: rgb(254, 240, 219);
+$color-two: rgb(74, 40, 25);
+$color-three: rgb(239, 164, 50);
+$color-four: rgb(167, 106, 50);
+$color-favorite: rgb(233, 55, 55);
+$color-vignette: radial-gradient($color-three, $color-four);
+$color-opacity: rgba(17, 17, 17, 0.664);
+$color-opacity-two: rgba(236, 226, 217, 0.322);
+$color-opacity-text: rgb(253, 244, 228);
+$shadow-one: 5px 5px 16px $color-opacity;
+$shadow-two: 5px 5px 16px $color-opacity-two;
+$shadow-three: 1px 2px 12px $color-opacity;
+$text-outline-color: rgb(92, 62, 24);
+$text-outline-color-two: rgb(230, 199, 100);
+$text-outline: -1px -1px 0 $text-outline-color, 1px -1px 0 $text-outline-color,
+  -1px 1px 0 $text-outline-color, 1px 1px 0 $text-outline-color;
+$text-outline-two: -1px -1px 0 $text-outline-color-two,
+  1px -1px 0 $text-outline-color-two, -1px 1px 0 $text-outline-color-two,
+  1px 1px 0 $text-outline-color-two;
+$color-highlight: rgb(255, 181, 71);
+$navbar-height: 60px;
+$border-one: 2px solid $color-three;
+$color-navbar-mobile: rgba(32, 32, 29, 0.863);
 body {
   background-color: $color-one;
   color: $color-two;

@@ -213,23 +213,20 @@ export class Drink {
 
     return `<div class="drink-card card" data-drink-id="${id}"  data-drink-name="${name}" data-is-alcoholic="${this.isAlcoholic}"
     data-ingredients="${this.strIngredients}" data-category="${this.category}">
+            <div class="card-content">
               <div class="img-container favorite-container">
-              <div class="faves-btn ${isFavorite} column-flex">
-                  <i class="fa-solid fa-heart" data-add-favorite="${id}"></i><span>Favorites</span>
-                </div>
-                <img src="${imageURL}" alt="${name}" />
-                
+                <div class="faves-btn ${isFavorite} column-flex"><i class="fa-solid fa-heart" data-add-favorite="${id}"></i><span>Favorite</span></div>
+                <img src="${imageURL}" alt="${name}"/>
               </div>
-              <h2 class="special-heading card-title">${name}</h2>
               <div class="card-text">
                 <h3 class="special-heading">Ingredients</h3>
-                <p>${ingrHtml}</p>
-                  <div class="tags">
-                  ${tags}
-                </div>
+                ${ingrHtml}
+                <div class="tags">${tags}</div>
                 <span data-create-modal="${id}" class="pill-btn">See Full Recipe <i class="fa-solid fa-circle-info" data-create-modal="${id}"></i></span>
               </div>
-            </div>`;
+            </div>
+              <h2 class="special-heading card-title">${name}</h2>
+          </div>`;
   }
   /**
    *
@@ -241,16 +238,18 @@ export class Drink {
     let isFavorite = isFave ? " favorite" : "";
 
     return `<div class="drink-card card" data-drink-id="${id}"  data-drink-name="${name}">
+    <div class="card-content">
     <div class="img-container favorite-container">
          <div class="faves-btn ${isFavorite} column-flex">
                   <i class="fa-solid fa-heart" data-add-favorite="${id}"></i><span>Favorites</span>
                 </div>
               <img src="${imageURL}" alt="${name}" />
             </div>
-            <h2 class="special-heading">${name}</h2>
                   <div class="card-text">
                 <span data-create-modal="${id}" class="pill-btn">See Full Recipe <i class="fa-solid fa-circle-info" data-create-modal="${id}"></i></span>
               </div>
+            </div>
+            <h2 class="special-heading">${name}</h2>
            </div>`;
   }
 }

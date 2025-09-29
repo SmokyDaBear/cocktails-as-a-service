@@ -1,4 +1,4 @@
-@import 'theme';
+@import "theme";
 * {
   margin: 0;
   padding: 0;
@@ -7,21 +7,33 @@
   font-size: 1rem;
   scroll-behavior: smooth;
 }
-main{
+main {
   position: relative;
 }
 /**Elements*/
+
+i:hover,
+a:hover,
+i:focus,
+a:focus {
+  color: $color-highlight;
+  transform: scale(1.1);
+  cursor: pointer;
+}
 a {
   color: inherit;
   text-decoration: none;
   transition: all 0.4s;
+  &:hover {
+    text-decoration: underline;
+  }
 }
-a.page-link{
+a.page-link {
   border-radius: 0.2rem;
   border: 1px solid $color-one;
-  text-decoration: none!important;
+  text-decoration: none !important;
   padding: 0.3rem 0.5rem;
-  &:hover{
+  &:hover {
     color: $color-one;
     background-color: $color-three;
     box-shadow: $shadow-two;
@@ -32,18 +44,22 @@ p {
 }
 i {
   transition: all 0.4s;
-}
-i + span {
-  margin-left: 8px;
-  visibility: hidden;
-  opacity: 0;
-  transition: all 0.6s;
-  background-color: $color-opacity;
-  color: $color-opacity-text;
-  padding: 4px;
-  border-radius: 4px;
-  font-variant: small-caps;
-  letter-spacing: -0.01rem;
+  & + span {
+    margin-left: 8px;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.6s;
+    background-color: $color-opacity;
+    color: $color-opacity-text;
+    padding: 4px;
+    border-radius: 4px;
+    font-variant: small-caps;
+    letter-spacing: -0.01rem;
+  }
+  &:hover + span {
+    visibility: visible;
+    opacity: 1;
+  }
 }
 .pill-btn {
   width: fit-content;
@@ -59,6 +75,7 @@ i + span {
   border-radius: 30px;
   box-shadow: $shadow-two;
   &:hover {
+    cursor: pointer;
     transform: scale(1.1);
     background-color: $color-one;
     border-color: $color-two;
@@ -67,29 +84,29 @@ i + span {
     box-shadow: $shadow-one;
   }
 }
-.flip-on-active{
+.flip-on-active {
   transform: none;
   transition: all 0.4s ease-in;
-  &.active{
+  &.active {
     transform: rotate(180deg);
   }
 }
 .clickable,
-.clickable-alt{
+.clickable-alt {
   padding: 0.2rem;
   margin: 0.4rem auto;
   max-width: fit-content;
   cursor: pointer;
   transition: all 0.4s ease-in-out;
   border-bottom: 2px solid rgba(0, 0, 0, 0);
-  &:hover{
+  &:hover {
     border-color: inherit;
   }
 }
-.clickable:hover{
+.clickable:hover {
   color: $color-highlight;
 }
-.clickable-alt:hover{
+.clickable-alt:hover {
   color: $color-four;
 }
 .btn {
@@ -105,7 +122,8 @@ i + span {
 .btn i {
   font-size: 1.5rem;
 }
-.btn:hover {
+.btn:hover,
+.btn-two:hover {
   transform: scale(1.03);
   box-shadow: $shadow-one;
 }
@@ -118,10 +136,6 @@ i + span {
   border-radius: 24px;
   cursor: pointer;
   transition: all 0.4s ease-in-out;
-}
-.btn-two:hover {
-  transform: scale(1.03);
-  box-shadow: $shadow-one;
 }
 .unstyled-list {
   list-style: none;
@@ -147,7 +161,7 @@ i + span {
   width: 100%;
   padding: 8px;
   z-index: 100;
-  @media (max-width: 1023px){
+  @media (max-width: 1023px) {
     background-color: $color-navbar-mobile;
   }
 }
@@ -157,7 +171,7 @@ i + span {
   gap: 6px;
   flex-flow: row nowrap;
   justify-content: flex-end;
-  & li a.current{
+  & li a.current {
     color: $color-highlight;
     transform: scale(1.1);
     text-shadow: $text-outline;
@@ -177,12 +191,29 @@ i + span {
 #menu-btn {
   font-size: 1.6rem;
   color: $color-two;
+  @media (min-width: 1024px) {
+    display: none;
+  }
+  @media (max-width: 1023px) {
+    display: block;
+  }
+}
+
+.menu-btn.fa-x {
+  z-index: -1;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s ease-in-out;
 }
 /**images*/
 .logo-container {
   width: 120px;
   height: 120px;
   overflow: hidden;
+  @media (min-width: 1023px) {
+    width: 180px;
+    height: 180px;
+  }
 }
 .logo-container.small {
   width: 50px;
@@ -203,39 +234,41 @@ i + span {
   text-align: center;
   z-index: -1;
   transition: all 0.4s;
-  min-width: 240px;
-  width: fit-content;
-  padding: 8px;
-  background-color: $color-two;
-  color: $color-opacity-text;
-  border: 1px solid $color-two;
-  border-radius: 10px;
-  position: relative;
-  top: 150%;
-  right: 2px;
+  position: absolute;
   display: flex;
   flex-direction: column;
   opacity: 0;
-  transform: translateX(100%);
   overflow: auto;
+  top: 200%;
+  transform: translate(50%, -50%) scale(0.1);
+  background-color: $color-one;
+  color: $color-two;
+  border: 1px solid $color-four;
+  border-radius: 10px;
+  & h3 {
+    font-size: 1.3rem;
+    border-bottom: 2px solid $color-three;
+    padding-bottom: 4px;
+  }
+  & h4 {
+    font-size: 1.1rem;
+    font-weight: lighter;
+  }
+  & i {
+    color: $color-three;
+    text-shadow: $text-outline;
+    font-size: 1.5rem;
+  }
+  &.active {
+    z-index: 1000;
+    transform: none;
+    opacity: 1;
+  }
+  @media (max-width: 600px) {
+    right: -10px;
+  }
 }
-.dropdown-list h3 {
-  font-size: 1.3rem;
-  border-bottom: 2px solid $color-three;
-  padding-bottom: 4px;
-}
-.dropdown-list h4 {
-  font-size: 1.1rem;
-  font-weight: lighter;
-}
-.dropdown-list i {
-  font-size: 1.5rem;
-}
-.dropdown-list.active {
-  z-index: 1000;
-  transform: none;
-  opacity: 1;
-}
+
 /**text*/
 h1 {
   font-size: 2.5rem;
@@ -299,8 +332,15 @@ h4 {
 }
 .container {
   padding: 12px;
-  &.full-width{
+  &.full-width {
     width: 100%;
+  }
+  &.sticky-header {
+    @media (max-width: 1023px) {
+      position: sticky;
+      top: $navbar-height;
+      z-index: 10;
+    }
   }
 }
 .relative-anchor {
@@ -311,13 +351,16 @@ h4 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  @media (min-width: 1024px) {
+    flex-direction: row;
+  }
 }
 .column-flex {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
-.flex-overflow{
+.flex-overflow {
   display: flex;
   flex-flow: row wrap;
 }
@@ -345,7 +388,7 @@ h4 {
 .align-center {
   align-items: center;
 }
-.justify-around{
+.justify-around {
   justify-content: space-around;
 }
 .search-bar {
@@ -353,74 +396,66 @@ h4 {
   display: inline-flex;
   align-items: center;
   & input {
-  padding: 5px;
-  border-radius: 30px;
-  user-select: none;
-  border: 1px solid $color-two;
-  visibility: hidden;
-  opacity: 0;
-  transition: all 0.4s;
-  width: 34px;
-}
- & .fa-magnifying-glass{
-  padding: 4px;
-  font-size: 1rem;
-  position: absolute;
-  right: 6px;
-  &:hover{
-    cursor: pointer;
+    padding: 5px;
+    border-radius: 30px;
+    user-select: none;
+    border: 1px solid $color-two;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.4s;
+    width: 34px;
   }
-}
-.fa-magnifying-glass[data-click-search]{
-  visibility: hidden;
-  opacity: 0;
-}
-.fa-magnifying-glass[data-activate]{
-  visibility: visible;
-  opacity: 1;
-}
-span {
-  position: relative;
-  top: 24px;
-}
-@media(max-width: 1024px){
-      input {
-  visibility: visible;
-  width: 250px;
-  opacity: 1;
-}
-  & .fa-magnifying-glass[data-activate]{
+  & .fa-magnifying-glass {
+    padding: 4px;
+    font-size: 1rem;
+    position: absolute;
+    right: 6px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .fa-magnifying-glass[data-click-search] {
     visibility: hidden;
     opacity: 0;
   }
-  & .fa-magnifying-glass[data-click-search]{
+  .fa-magnifying-glass[data-activate] {
     visibility: visible;
     opacity: 1;
   }
-}
-&.active
-{
+  span {
+    position: relative;
+    top: 24px;
+  }
+  @media (max-width: 1024px) {
     input {
-  visibility: visible;
-  width: 250px;
-  opacity: 1;
-}
-  & .fa-magnifying-glass[data-activate]{
-    visibility: hidden;
-    opacity: 0;
+      visibility: visible;
+      width: max-content;
+      opacity: 1;
+    }
+    & .fa-magnifying-glass[data-activate] {
+      visibility: hidden;
+      opacity: 0;
+    }
+    & .fa-magnifying-glass[data-click-search] {
+      visibility: visible;
+      opacity: 1;
+    }
   }
-  & .fa-magnifying-glass[data-click-search]{
-    visibility: visible;
-    opacity: 1;
+  &.active {
+    input {
+      visibility: visible;
+      width: 300px;
+      opacity: 1;
+    }
+    & .fa-magnifying-glass[data-activate] {
+      visibility: hidden;
+      opacity: 0;
+    }
+    & .fa-magnifying-glass[data-click-search] {
+      visibility: visible;
+      opacity: 1;
+    }
   }
-}
-}
-
-.menu-btn.fa-x {
-  z-index: -1;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.5s ease-in-out;
 }
 /**specific selectors*/
 .hidden {
@@ -434,7 +469,7 @@ body {
   background-color: $color-two;
   color: $color-one;
 }
-section#favorites {
+#favorites {
   background-color: $color-one;
   color: $color-two;
 }
@@ -445,12 +480,12 @@ section#favorites {
   min-height: 120px;
   background-color: $color-two;
   color: $color-one;
-}
-#footer-container .logo-container {
-  border-radius: 8px;
-  border: 2px solid $color-three;
-  border-right: 3px solid $color-highlight;
-  overflow: hidden;
+  & .logo-container {
+    border-radius: 8px;
+    border: 2px solid $color-three;
+    border-right: 3px solid $color-highlight;
+    overflow: hidden;
+  }
 }
 
 $table-radius: 0.5rem;
@@ -458,16 +493,14 @@ $table-radius: 0.5rem;
   background-color: $color-one;
   color: $color-two;
   transition: all 0.4s ease-out;
-  visibility: collapse;
+  display: none;
   opacity: 0;
-  height: 0;
-  &.active{
-    visibility: visible;
+  &.active {
+    display: block;
     opacity: 1;
-    height: fit-content;
   }
 
-  & table{
+  & table {
     gap: 0.2rem;
     border-spacing: 0;
     margin: 0 auto;
@@ -475,12 +508,13 @@ $table-radius: 0.5rem;
     border-radius: $table-radius;
     box-shadow: $shadow-one;
   }
-  & th, & td {
+  & th,
+  & td {
     padding: 0.4rem 1rem;
     text-align: center;
     border: 3px outset $color-three;
   }
-    & th{
+  & th {
     background-color: $color-two;
     color: $color-one;
   }
@@ -488,19 +522,19 @@ $table-radius: 0.5rem;
     background-color: $color-one;
     color: $color-two;
   }
-  & thead :first-child{
+  & thead :first-child {
     border-top-left-radius: $table-radius;
   }
   & thead :last-child {
     border-top-right-radius: $table-radius;
   }
-  & tbody :last-child :first-child{
+  & tbody :last-child :first-child {
     border-bottom-left-radius: $table-radius;
   }
-  & tbody :last-child :last-child{
+  & tbody :last-child :last-child {
     border-bottom-right-radius: $table-radius;
   }
-  & caption{
+  & caption {
     margin: 1rem 0;
   }
 }

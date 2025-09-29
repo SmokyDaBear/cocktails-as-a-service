@@ -105,7 +105,7 @@ export const getFavorites = async (config) => {
 export const toggleFavorite = ([idStr, btn], config) => {
   const id = parseInt(idStr);
   const { favorites, drinks } = config.elementContainers;
-  let removeFrom, addTo;
+  let removeFrom, addTo, isFave;
   if (!Number.isInteger(id))
     throw new Error(`Cannot toggle favorite "${id}" is NaN`);
   if (config.settings.favorites.has(id)) {
@@ -113,12 +113,19 @@ export const toggleFavorite = ([idStr, btn], config) => {
     config.settings.favorites.delete(id);
     [removeFrom, addTo] = [favorites, drinks];
   } else {
+    isFave = true;
     btn.parentElement.classList.add("favorite");
     new Promise((resolve) => setTimeout(resolve, 5000));
     config.settings.favorites.add(id);
     [removeFrom, addTo] = [drinks, favorites];
   }
   const cardNodes = removeFrom.querySelectorAll(`[data-drink-id="${id}"]`); // used instead of btn.parentElement.parentElement.etc. in case if in a modal.
+  if (!cardNodes || cardNodes.length === 0) {
+    fetchData(searchMethods.id(id, config), config).then((data) => {
+      addTo.innerHTML += data[0].createFullCard(isFave);
+      sortDrinks(config);
+    });
+  }
   if (cardNodes.length > 0) addTo.append(cardNodes[0]);
   if (cardNodes.length > 1) {
     let isFirst = true;
@@ -240,10 +247,15 @@ const updateDrinks = async (promises, config) => {
  * Builds the page either on load, or when isSober option is changed
  */
 export const buildPage = async (config) => {
-  const { drinks, noResults, stats, featured, favorites } =
+  const { drinks, stats, featured, favorites, statsFavorites } =
     config.elementContainers;
-  noResults.innerText = "";
-  for (const container of [drinks, stats, featured, favorites]) {
+  for (const container of [
+    drinks,
+    stats,
+    featured,
+    favorites,
+    statsFavorites,
+  ]) {
     container.innerHTML = "";
   }
   getFeaturedDrinks(config).catch((err) =>
@@ -260,8 +272,11 @@ export const buildPage = async (config) => {
     .then(() => {
       if (config.elementContainers.drinks.children.length === 0) {
         alert("No drinks found, server may be down. Try again later.");
-        config.elementContainers.noResults.innerText =
+        const norResDrinks =
+          config.elementContainers.drinks.previousElementSibling;
+        norResDrinks.innerText =
           "No drinks found, server may be down. Try again later.";
+        norResDrinks.classList.remove("hidden");
       } else {
         console.log("Drinks loaded successfully");
         getStats(config.elementContainers.drinks).then((stats) => {
@@ -271,8 +286,6 @@ export const buildPage = async (config) => {
           getStats(config.elementContainers.favorites).then((faveStats) =>
             printStats(faveStats, config.elementContainers.statsFavorites)
           );
-        } else {
-          config.elementContainers.statsFavorites.innerHTML = "No favorites";
         }
       }
     })
