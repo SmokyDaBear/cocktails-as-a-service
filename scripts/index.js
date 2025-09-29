@@ -107,7 +107,7 @@ getSettings(config, settingsDefaults);
  */
 const eventHandler = {
   activate: (ids) => ids.split(" ").forEach((id) => addActive(id)),
-  deactivate: (id) => removeActive(id),
+  deactivate: (ids) => ids.split(" ").forEach((id) => removeActive(id)),
   toggleBtn: (setting) => toggleSetting(setting, config),
   modal: (id) => createModal(id, config),
   drinkName: (name) => console.log("You clicked on " + name),
