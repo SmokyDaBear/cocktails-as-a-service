@@ -1,4 +1,4 @@
-import { changeSlide, slideshowLoop } from "./additional/slideshow.js";
+import { changeSlide } from "./additional/slideshow.js";
 import {
   addActive,
   removeActive,
@@ -19,10 +19,9 @@ import {
 
 import { getSettings, toggleSetting } from "./additional/settings.js";
 import { buildPageSearches } from "./additional/build.js";
-import { Drink } from "./classes/drinks.js";
 
 //URL for the db
-const dbURL = "https://www.thecocktaildb.com/api/json/v1/1/";
+const _dbURL = "https://www.thecocktaildb.com/api/json/v1/1/";
 
 //For reference
 const elmDatasets = {
@@ -81,7 +80,7 @@ const config = {
   settings: {
     pauseSlideshow: false,
     forcePauseSlideshow: false,
-    numDrinksPerPage: 2,
+    numDrinksPerPage: 8,
     delayTime: 4000,
     currentSlide: 0,
   },
