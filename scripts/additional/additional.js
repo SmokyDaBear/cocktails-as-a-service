@@ -188,8 +188,7 @@ const getFeaturedDrinks = async (config) => {
       })
     )
   );
-
-  console.log("Starting slideshow");
+  if (config.settings.debug) console.log("Starting slideshow");
   slideshowLoop(config);
 };
 
@@ -278,7 +277,7 @@ export const buildPage = async (config) => {
           "No drinks found, server may be down. Try again later.";
         norResDrinks.classList.remove("hidden");
       } else {
-        console.log("Drinks loaded successfully");
+        if (config.settings.debug) console.log("Drinks loaded successfully");
         getStats(config.elementContainers.drinks).then((stats) => {
           printStats(stats, config.elementContainers.stats);
         });

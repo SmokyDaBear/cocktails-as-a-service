@@ -218,7 +218,7 @@ export const showMoreResults = (parentId, config) => {
  * @returns an array of drink objects
  */
 export const fetchData = async (url, config) => {
-  console.log("fetching ", url);
+  if (config.settings.debug) console.log("fetching ", url);
   if (url === undefined || url === null || url === "") {
     return Promise.reject("Invalid URL for fetch request");
   }

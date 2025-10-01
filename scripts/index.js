@@ -83,6 +83,7 @@ const config = {
     numDrinksPerPage: 8,
     delayTime: 4000,
     currentSlide: 0,
+    debug: false,
   },
 };
 //Build search bars and filter options if needed
@@ -109,7 +110,7 @@ const eventHandler = {
   deactivate: (ids) => ids.split(" ").forEach((id) => removeActive(id)),
   toggleBtn: (setting) => toggleSetting(setting, config),
   modal: (id) => createModal(id, config),
-  drinkName: (name) => console.log("You clicked on " + name),
+  drinkName: (_name) => undefined, //not used for click events
   toggleFave: (id) => toggleFavorite(id, config),
   changeSlide: (e) => changeSlide(e, config),
   search: (elm) => searchClick(elm, config),
